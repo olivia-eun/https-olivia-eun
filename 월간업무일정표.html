@@ -1,0 +1,2378 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>메가보험플라자-월간 업무일정표</title>
+<style>
+  :root{
+    --navy:#16233F;
+    --navy-2:#223354;
+    --slate:#4A5C74;
+    --gold:#C89B3C;
+    --gold-soft:#F3E6C8;
+    --bg:#EEF1F5;
+    --paper:#FFFFFF;
+    --ink:#1A2332;
+    --ink-muted:#69758A;
+    --line:#DDE3EC;
+    --line-soft:#E9EDF3;
+    --radius:10px;
+    --font: -apple-system, BlinkMacSystemFont, "Malgun Gothic", "Apple SD Gothic Neo", "Segoe UI", sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:var(--font);
+    background:var(--bg);
+    color:var(--ink);
+    min-height:100vh;
+  }
+  ::selection{background:var(--gold-soft);}
+
+  .app{max-width:1680px;margin:0 auto;padding:20px 20px 60px;}
+
+  /* ---------- Toolbar ---------- */
+  .toolbar{
+    display:flex;align-items:center;justify-content:space-between;
+    background:var(--navy);
+    border-radius:var(--radius);
+    padding:12px 16px;
+    margin-bottom:14px;
+    flex-wrap:wrap;gap:10px;
+  }
+  .month-nav{display:flex;align-items:center;gap:14px;}
+  .month-nav button{
+    background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);
+    color:#fff;width:32px;height:32px;border-radius:8px;cursor:pointer;
+    font-size:15px;display:flex;align-items:center;justify-content:center;
+    transition:background .15s;
+  }
+  .month-nav button:hover{background:rgba(255,255,255,0.18);}
+  .month-nav .label{color:#fff;font-size:17px;font-weight:700;min-width:120px;text-align:center;letter-spacing:0.5px;}
+  .toolbar-right{display:flex;gap:8px;align-items:center;}
+  .btn{
+    border:none;border-radius:8px;padding:8px 14px;font-size:13px;font-weight:600;
+    cursor:pointer;transition:transform .1s, filter .15s;font-family:inherit;
+  }
+  .btn:active{transform:scale(0.97);}
+  .btn-today{background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.2);}
+  .btn-gold{background:var(--gold);color:var(--navy);font-weight:700;}
+  .btn-gold:hover{filter:brightness(1.08);}
+  .btn-ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.25);}
+  .btn-ghost:hover{background:rgba(255,255,255,0.1);}
+  .btn-today:hover{background:rgba(255,255,255,0.2);}
+  .save-indicator{font-size:11.5px;color:rgba(255,255,255,0.55);}
+
+  /* ---------- Note box ---------- */
+  .note-box{
+    background:var(--gold-soft);border:1px solid #E3CE96;border-radius:var(--radius);
+    padding:10px 14px;margin-bottom:14px;
+    display:grid;grid-template-columns:1fr 1fr;gap:14px;
+  }
+  .note-col{min-width:0;}
+  .note-col + .note-col{border-left:1px solid #E3CE96;padding-left:14px;}
+  .note-box textarea{
+    width:100%;border:none;background:transparent;resize:vertical;min-height:36px;
+    font-family:inherit;font-size:12.5px;color:#5B4A22;line-height:1.5;
+  }
+  .note-box textarea:focus{outline:none;}
+  .note-box .note-label{font-size:10.5px;font-weight:700;color:#8A6B25;letter-spacing:0.4px;margin-bottom:2px;}
+
+  /* ---------- Search panel ---------- */
+  .search-box{
+    background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);
+    padding:12px 14px;margin-bottom:14px;
+  }
+  .search-row{
+    display:flex;flex-wrap:wrap;align-items:center;gap:10px;
+    padding-bottom:11px;margin-bottom:11px;border-bottom:1px solid var(--line-soft);
+  }
+  .search-group{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--slate);font-weight:600;}
+  .search-group input[type=date]{
+    border:1px solid var(--line);border-radius:6px;padding:5px 7px;font-size:12px;font-family:inherit;color:var(--ink);
+  }
+  .quick-jump{display:flex;gap:6px;flex-wrap:wrap;}
+  .quick-jump .btn{padding:6px 11px;font-size:11.5px;}
+  .search-row > .btn-navy{margin-left:auto;padding:7px 20px;font-size:12.5px;}
+
+  .search-cats{display:flex;flex-wrap:wrap;gap:7px;padding-bottom:11px;margin-bottom:11px;border-bottom:1px solid var(--line-soft);}
+  .cat-chip{
+    display:flex;align-items:center;gap:5px;
+    padding:5px 12px;border-radius:16px;border:1px solid var(--line);
+    font-size:12px;font-weight:600;color:var(--ink-muted);cursor:pointer;
+    background:#fff;transition:all .12s;user-select:none;
+  }
+  .cat-chip:hover{border-color:var(--slate);}
+  .cat-chip input{margin:0;}
+  .cat-chip.active{color:var(--ink);}
+
+  .tool-row{display:flex;gap:8px;flex-wrap:wrap;}
+  .btn-tool{
+    background:#F4F6F9;color:var(--slate);border:1px solid var(--line);
+    padding:6px 13px;font-size:12px;font-weight:600;
+  }
+  .btn-tool:hover{background:var(--line-soft);}
+  .btn-tool-gold{background:var(--gold-soft);color:#6b5420;border-color:#E3CE96;}
+  .btn-tool-gold:hover{filter:brightness(0.97);}
+  .btn-tool-danger{background:#FBEAEA;color:#9B3A3A;border-color:#F0C9C9;}
+  .btn-tool-danger:hover{background:#F6D9D9;}
+
+  .btn-navy{background:var(--navy);color:#fff;}
+  .btn-navy:hover{background:var(--navy-2);}
+  .btn-outline{background:none;border:1px solid var(--line);color:var(--ink-muted);}
+  .btn-exit-filter{
+    background:#fff;color:var(--navy);border:none;font-weight:700;
+    white-space:nowrap;flex-shrink:0;
+    width:auto !important;height:auto !important;
+    padding:9px 16px !important;border-radius:8px;
+  }
+  .btn-exit-filter:hover{background:var(--gold-soft);}
+  .btn-outline:hover{border-color:var(--slate);color:var(--slate);}
+
+  .search-results{margin-top:10px;border-top:1px solid var(--line-soft);padding-top:10px;}
+  .search-results .sr-count{font-size:12px;color:var(--ink-muted);margin-bottom:8px;font-weight:600;}
+  .sr-item{
+    display:flex;gap:10px;align-items:flex-start;padding:7px 4px;border-bottom:1px solid var(--line-soft);
+    cursor:pointer;
+  }
+  .sr-item:hover{background:#F7F9FB;}
+  .sr-item .sr-date{font-size:12px;font-weight:700;color:var(--navy);min-width:78px;flex-shrink:0;}
+  .sr-item .sr-label{
+    font-size:10.5px;font-weight:700;color:#fff;background:var(--slate);
+    border-radius:5px;padding:2px 6px;flex-shrink:0;height:fit-content;
+  }
+  .sr-item .sr-text{font-size:12.5px;color:var(--ink);white-space:pre-wrap;line-height:1.4;}
+  .sr-empty{font-size:12.5px;color:var(--ink-muted);padding:6px 4px;}
+
+  /* ---------- Period filter (기간 조회) view ---------- */
+  .filter-sheet{
+    background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);
+    overflow:hidden;padding-bottom:4px;
+  }
+  .ft-title{
+    background:var(--navy);color:#fff;font-weight:700;padding:8px 14px;font-size:1.05em;
+  }
+  .ft-header-row, .ft-row{ display:grid; }
+  .ft-cell{
+    border-right:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);
+    padding:5px 6px;overflow:hidden;
+  }
+  .ft-cell:last-child{border-right:none;}
+  .ft-head{
+    background:var(--navy-2);color:#fff;text-align:center;font-weight:700;
+  }
+  .ft-corner{background:rgba(0,0,0,0.15);color:var(--gold);}
+  .ft-date{font-size:1em;}
+  .ft-dow{font-size:0.82em;opacity:0.8;}
+  .ft-head.ft-sun{color:#F0A8A8;}
+  .ft-head.ft-sat{color:#9CC0DE;}
+  .ft-head.ft-today{background:var(--gold);color:var(--navy);}
+  .ft-label{
+    background:#FAFBFC;font-weight:700;color:var(--slate);display:flex;align-items:center;
+  }
+  .ft-body{color:var(--ink);line-height:1.35;word-break:break-word;text-align:center;}
+  .ft-body strong{font-weight:800;}
+
+  @media print{
+    body{background:#fff;}
+    @page{ size: landscape; margin: 8mm; }
+    .no-print{display:none !important;}
+    .app{max-width:none;padding:0;}
+    .sheet{border:1px solid #999;}
+    .week-block{border-bottom:2px solid #999;}
+    .rm-row, .add-row-btn{display:none !important;}
+    .label-cell input, .cell-text textarea{color:#000;}
+    .cal-cell.today .num, .date-cell.today .num{background:#ddd !important;color:#000 !important;}
+    .filter-sheet{border:1px solid #999;width:100%;}
+    .ft-cell{border-color:#bbb;}
+    .ft-head{background:#e4e4e4 !important;color:#000 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    .ft-corner{background:#d0d0d0 !important;color:#000 !important;}
+    .ft-title{background:#333 !important;color:#fff !important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    .ft-label{background:#f2f2f2 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    .cell-text, .ft-cell, .date-cell{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  }
+
+  /* ---------- Sheet (mirrors the excel layout) ---------- */
+  .sheet{
+    background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);
+  }
+  .dow-header{
+    display:grid;grid-template-columns:94px repeat(7,1fr);
+    background:var(--navy-2);
+    position:sticky;top:0;z-index:20;
+    box-shadow:0 2px 6px rgba(0,0,0,0.15);
+    border-radius:var(--radius) var(--radius) 0 0;
+  }
+  .dow-header div{
+    text-align:center;font-size:12px;font-weight:700;color:#fff;
+    padding:9px 0;letter-spacing:0.5px;
+  }
+  .dow-header .gubun-head{color:var(--gold);background:rgba(0,0,0,0.12);border-radius:var(--radius) 0 0 0;}
+  .dow-header .dow-sat{color:#9CC0DE;}
+  .dow-header .dow-sun{color:#F0A8A8;}
+  .dow-header div:last-child{border-radius:0 var(--radius) 0 0;}
+
+  .week-block{border-bottom:8px solid var(--bg);}
+  .week-block:last-child{border-bottom:none;}
+  .week-block:last-child .row-line:last-of-type{border-radius:0 0 var(--radius) var(--radius);overflow:hidden;}
+
+  .date-row{
+    display:grid;grid-template-columns:94px repeat(7,1fr);
+    background:#F7F9FB;
+    border-bottom:1px solid var(--line-soft);
+    border-top:3px solid var(--navy);
+  }
+  .date-row .label-cell{border-right:1px solid var(--line-soft);}
+  .date-cell{
+    text-align:center;padding:7px 0;font-size:12.5px;font-weight:700;color:var(--ink);
+    border-right:1px solid var(--line-soft);position:relative;
+  }
+  .date-cell:last-child{border-right:none;background:#FBE2E8;}
+  .date-cell:nth-child(7){background:#D7F3F0;}
+  .date-cell.muted{color:#B7C0CC;font-weight:600;}
+  .date-cell .num{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:22px;height:22px;border-radius:50%;
+  }
+  .date-cell.today .num{background:var(--gold);color:var(--navy);}
+  .date-cell .holiday-tag{
+    display:block;font-size:9px;font-weight:700;color:#B23A5C;
+    margin-top:1px;line-height:1.1;white-space:nowrap;
+  }
+
+  .row-line{
+    display:grid;grid-template-columns:94px repeat(7,1fr);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .row-line:last-of-type{border-bottom:1px solid var(--line-soft);}
+  .row-line.row-divider{border-bottom:1px solid var(--navy);}
+  .label-cell{
+    display:flex;align-items:center;
+    border-right:1px solid var(--line-soft);
+    background:#FAFBFC;
+    padding:4px;
+    gap:2px;
+  }
+  .label-cell input{
+    width:100%;min-width:0;border:none;background:transparent;font-size:11.5px;font-weight:700;
+    color:var(--slate);padding:4px 1px;font-family:inherit;
+  }
+  .label-cell input:focus{outline:none;background:#fff;border-radius:4px;}
+  .row-move{display:flex;flex-direction:column;flex-shrink:0;}
+  .row-move-btn{
+    background:none;border:none;color:#B8C0CC;cursor:pointer;font-size:8px;
+    line-height:1;padding:1px 2px;border-radius:3px;
+  }
+  .row-move-btn:hover{color:var(--slate);background:var(--line-soft);}
+  .row-move-btn:disabled{color:#E2E6EB;cursor:default;}
+  .row-move-btn:disabled:hover{background:none;}
+  .label-cell .rm-row{
+    background:none;border:none;color:#C7CDD6;cursor:pointer;font-size:12px;
+    flex-shrink:0;padding:2px 3px;border-radius:4px;
+  }
+  .label-cell .rm-row:hover{color:#9B5050;background:var(--line-soft);}
+
+  .cell-text{
+    border-right:1px solid var(--line-soft);
+    padding:2px;
+  }
+  .cell-text:last-child{border-right:none; background:#FBE2E8;}
+  .cell-text:nth-child(7){background:#D7F3F0;}
+  .cell-text textarea{
+    width:100%;border:none;background:transparent;resize:none;overflow:hidden;
+    font-family:inherit;font-size:12px;color:var(--ink);line-height:1.45;
+    padding:6px 6px;min-height:34px;text-align:center;
+  }
+  .cell-text textarea:focus{outline:none;background:#FFFDF7;border-radius:5px;}
+
+  .cell-display{
+    width:100%;min-height:30px;padding:6px 6px;font-size:12px;color:var(--ink);
+    line-height:1.45;text-align:center;cursor:text;white-space:normal;
+  }
+  .cell-display:empty::before{content:"";}
+  .cell-display strong{font-weight:800;}
+  .hl-newhire{color:#C0392B;font-weight:700;}
+  .cell-edit-hidden{display:none;}
+
+  .week-actions{
+    display:flex;justify-content:flex-end;padding:6px 8px;background:#FAFBFC;
+  }
+  .add-row-btn{
+    background:none;border:1px dashed var(--line);color:var(--ink-muted);
+    font-size:11.5px;font-weight:600;padding:4px 10px;border-radius:6px;cursor:pointer;
+    font-family:inherit;
+  }
+  .add-row-btn:hover{border-color:var(--slate);color:var(--slate);}
+
+  .footnote{
+    text-align:center;font-size:11.5px;color:var(--ink-muted);margin-top:16px;
+    line-height:1.6;
+  }
+
+  .toast{
+    position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+    background:var(--navy);color:#fff;padding:10px 18px;border-radius:24px;
+    font-size:13px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,0.2);
+    opacity:0;pointer-events:none;transition:opacity .25s, transform .25s;
+    z-index:100;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(-4px);}
+
+  .loading-msg{
+    text-align:center;padding:60px 0;color:var(--ink-muted);font-size:13px;
+  }
+
+  .diag-overlay{
+    position:fixed;inset:0;background:rgba(10,15,25,0.5);z-index:200;
+    display:flex;align-items:center;justify-content:center;padding:20px;
+  }
+  .diag-box{
+    background:#fff;border-radius:12px;max-width:640px;width:100%;
+    max-height:80vh;overflow:auto;padding:20px 22px;box-shadow:0 20px 60px rgba(0,0,0,0.3);
+  }
+  .diag-box h3{margin:0 0 12px;font-size:16px;color:var(--navy);}
+  .diag-box .diag-row{margin-bottom:10px;font-size:13px;line-height:1.6;}
+  .diag-box .diag-row b{color:var(--slate);}
+  .diag-box pre{
+    background:#F7F9FB;border:1px solid var(--line);border-radius:8px;padding:10px;
+    font-size:11px;white-space:pre-wrap;word-break:break-word;max-height:240px;overflow:auto;
+  }
+  .diag-box .diag-close{
+    margin-top:14px;background:var(--navy);color:#fff;border:none;border-radius:8px;
+    padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;
+  }
+
+  @media (max-width: 720px){
+    .app{padding:14px 10px 40px;}
+    .dow-header, .date-row, .row-line{grid-template-columns:44px repeat(7,1fr);}
+    .label-cell input{font-size:10px;}
+    .cell-text textarea{font-size:10.5px;padding:4px 3px;min-height:28px;}
+    .date-cell{font-size:11px;padding:5px 0;}
+    .toolbar{padding:10px 12px;}
+    .note-box{grid-template-columns:1fr;}
+    .note-col + .note-col{border-left:none;padding-left:0;border-top:1px solid #E3CE96;padding-top:10px;margin-top:10px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="app" id="app">
+  <div class="loading-msg" id="loadingMsg">일정을 불러오는 중입니다...</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0"></script>
+<script>
+(function(){
+  const DEFAULT_LABELS = ['교육','사업부','지점','대표님','익산직할','목포직할','휴가'];
+
+  // Staff names get bolded (not underlined) inside the 휴가 row's display view.
+  const STAFF_NAMES = ['이지은','모정연','오해미','이주희','진영주','박태희','김민숙'];
+
+  // Background shading for date cells that have content, by 구분(category) label.
+  const CATEGORY_SHADE = {
+    '교육': '#FFF7C2',
+    '사업부': '#DFF2DA',
+    '대표님': '#BFDCF2',
+    '지점': '#E9DFF5',
+    '익산직할': '#FBE0C4',
+    '목포직할': '#E3D0BE',
+  };
+
+  // Korean national holidays & substitute holidays (연한핑크 음영 표시용).
+  // Sources: 인사혁신처 고시 / 관공서의 공휴일에 관한 규정. 2027년 데이터는
+  // 정부 발표 전 계산 기반 예상치이므로 확정 후 갱신이 필요할 수 있습니다.
+  const KOREAN_HOLIDAYS = {
+    // 2025
+    '2025-01-01':'신정',
+    '2025-01-27':'임시공휴일',
+    '2025-01-28':'설날연휴',
+    '2025-01-29':'설날',
+    '2025-01-30':'설날연휴',
+    '2025-03-01':'삼일절',
+    '2025-03-03':'대체공휴일',
+    '2025-05-05':'어린이날·부처님오신날',
+    '2025-05-06':'대체공휴일',
+    '2025-06-03':'임시공휴일',
+    '2025-06-06':'현충일',
+    '2025-08-15':'광복절',
+    '2025-10-03':'개천절',
+    '2025-10-05':'추석연휴',
+    '2025-10-06':'추석',
+    '2025-10-07':'추석연휴',
+    '2025-10-08':'대체공휴일',
+    '2025-10-09':'한글날',
+    '2025-12-25':'성탄절',
+    // 2026
+    '2026-01-01':'신정',
+    '2026-02-16':'설날연휴',
+    '2026-02-17':'설날',
+    '2026-02-18':'설날연휴',
+    '2026-03-01':'삼일절',
+    '2026-03-02':'대체공휴일',
+    '2026-05-05':'어린이날',
+    '2026-05-24':'부처님오신날',
+    '2026-05-25':'대체공휴일',
+    '2026-06-03':'임시공휴일',
+    '2026-06-06':'현충일',
+    '2026-07-17':'제헌절',
+    '2026-08-15':'광복절',
+    '2026-08-17':'대체공휴일',
+    '2026-09-24':'추석연휴',
+    '2026-09-25':'추석',
+    '2026-09-26':'추석연휴',
+    '2026-10-03':'개천절',
+    '2026-10-05':'대체공휴일',
+    '2026-10-09':'한글날',
+    '2026-12-25':'성탄절',
+    // 2027 (예상치 — 정부 확정 고시 후 확인 필요)
+    '2027-01-01':'신정',
+    '2027-02-06':'설날연휴',
+    '2027-02-07':'설날',
+    '2027-02-08':'설날연휴',
+    '2027-02-09':'대체공휴일',
+    '2027-03-01':'삼일절',
+    '2027-05-05':'어린이날',
+    '2027-05-13':'부처님오신날',
+    '2027-06-06':'현충일',
+    '2027-08-15':'광복절',
+    '2027-08-16':'대체공휴일',
+    '2027-09-14':'추석연휴',
+    '2027-09-15':'추석',
+    '2027-09-16':'추석연휴',
+    '2027-10-03':'개천절',
+    '2027-10-04':'대체공휴일',
+    '2027-10-09':'한글날',
+    '2027-10-11':'대체공휴일',
+    '2027-12-25':'성탄절',
+    '2027-12-27':'대체공휴일',
+  };
+  const HOLIDAY_COLOR = '#FBE2E8';
+
+  function holidayKey(d){
+    return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+  }
+  function getHolidayName(d){
+    return KOREAN_HOLIDAYS[holidayKey(d)] || null;
+  }
+
+  // ---------- Recurring monthly schedule auto-fill ----------
+  // When a month has no saved data yet (and no hand-curated SEED_DATA),
+  // these standing office rules populate 사업부 with the recurring
+  // deadlines and 지점 with its usual weekly rhythm, so every new month
+  // starts pre-filled instead of blank. Once the user edits/saves the
+  // month, that becomes the real saved data and auto-fill no longer runs.
+  function isBusinessDay(d){
+    const dow = d.getDay();
+    if(dow===0 || dow===6) return false;
+    return !getHolidayName(d);
+  }
+  function previousBusinessDay(d){
+    const cur = new Date(d);
+    while(!isBusinessDay(cur)) cur.setDate(cur.getDate()-1);
+    return cur;
+  }
+  function adjustToBusinessDayBackward(d){
+    return isBusinessDay(d) ? d : previousBusinessDay(d);
+  }
+  // Returns the date of the n-th business day of the month (or null if the
+  // month somehow doesn't have n business days).
+  function nthBusinessDayOfMonth(y, m, n){
+    const lastDay = new Date(y, m, 0).getDate();
+    let count = 0;
+    for(let day=1; day<=lastDay; day++){
+      const d = new Date(y, m-1, day);
+      if(isBusinessDay(d)){
+        count++;
+        if(count === n) return d;
+      }
+    }
+    return null;
+  }
+  function locateDateInWeeks(weeks, date){
+    for(let wi=0; wi<weeks.length; wi++){
+      for(let di=0; di<7; di++){
+        const cand = weeks[wi][di].date;
+        if(cand.getFullYear()===date.getFullYear() && cand.getMonth()===date.getMonth() && cand.getDate()===date.getDate()){
+          return {wi, di};
+        }
+      }
+    }
+    return null;
+  }
+
+  // A reasonable typical 지점 week (월~일), used as a last-resort fallback
+  // when no prior month's data exists yet to copy the pattern from.
+  const DEFAULT_JIJEOM_TEMPLATE = [
+    '주간면담\n운영 리더미팅 (17시)',
+    '주간 면담일지 체출',
+    '센터 미팅\n12차월 미만 코칭(10시)\n집중콜타임(13시)\n자동차 DB코칭(16시)',
+    '',
+    '주간계획 제출\n핵심리더 회의',
+    '',
+    '',
+  ];
+
+  // Builds this month's 사업부 auto-fill: one array of 7 cells per week,
+  // with 세금신고/카드수납일/수수료 지급율 보고/수수료 지급/시책지급 placed
+  // on their rule-derived dates. Same-day items combine with " / ", the
+  // same convention already used by hand-entered content.
+  function buildRecurringBizCells(y, m){
+    const weeks = buildWeeks(y, m);
+    const cellsByWeek = weeks.map(()=> ['','','','','','','']);
+
+    function place(date, text){
+      if(!date) return;
+      const loc = locateDateInWeeks(weeks, date);
+      if(!loc) return;
+      const existing = cellsByWeek[loc.wi][loc.di];
+      cellsByWeek[loc.wi][loc.di] = existing ? `${existing} / ${text}` : text;
+    }
+
+    // 카드수납일 first, so it leads any same-day combo (matches past convention).
+    [5,10,15,20,25].forEach(day=>{
+      place(adjustToBusinessDayBackward(new Date(y, m-1, day)), '카드수납일');
+    });
+    place(nthBusinessDayOfMonth(y, m, 3), '세금신고');
+    place(nthBusinessDayOfMonth(y, m, 10), '수수료 지급율 보고');
+    place(adjustToBusinessDayBackward(new Date(y, m-1, 25)), '수수료 지급');
+    place(adjustToBusinessDayBackward(new Date(y, m, 0)), '시책지급');
+
+    return cellsByWeek;
+  }
+
+  // Finds the 지점 weekly pattern to reuse for a new month: the most
+  // recently saved (non-blank) month's 지점 row, read directly from
+  // storage (not via loadMonth, to avoid chaining auto-fill calls across
+  // months), falling back to that month's SEED_DATA, then to the static
+  // default.
+  async function getRecentJijeomTemplate(y, m){
+    const prevM = m === 1 ? 12 : m - 1;
+    const prevY = m === 1 ? y - 1 : y;
+    try{
+      const raw = await Store.get(monthKey(prevY, prevM));
+      if(raw){
+        const data = JSON.parse(raw);
+        if(data && Array.isArray(data.weeks) && !isBlankMonthData(data)){
+          const midIdx = data.weeks.length >= 3 ? Math.floor(data.weeks.length/2) : 0;
+          const week = data.weeks[midIdx];
+          const row = week && Array.isArray(week.rows) && week.rows.find(r=>r.label==='지점');
+          if(row && Array.isArray(row.cells)) return row.cells.slice(0,7);
+        }
+      }
+    }catch(e){ console.error('jijeom template lookup failed', e); }
+
+    const seed = seedFor(prevY, prevM);
+    if(seed && Array.isArray(seed.weeks) && seed.weeks.length){
+      const midIdx = seed.weeks.length >= 3 ? Math.floor(seed.weeks.length/2) : 0;
+      const week = seed.weeks[midIdx];
+      const row = week && Array.isArray(week.rows) && week.rows.find(r=>r.label==='지점');
+      if(row && Array.isArray(row.cells)) return row.cells.slice(0,7);
+    }
+    return DEFAULT_JIJEOM_TEMPLATE;
+  }
+
+  // Assembles a full blank-month replacement: 사업부 gets the recurring
+  // deadlines, 지점 gets the reused weekly pattern on every week except
+  // the last (which is usually thin/irregular in real usage), everything
+  // else starts empty as before.
+  async function buildAutoFilledMonth(y, m){
+    const weeks = buildWeeks(y, m);
+    const bizCells = buildRecurringBizCells(y, m);
+    const jijeomTemplate = await getRecentJijeomTemplate(y, m);
+    const lastWeekIdx = weeks.length - 1;
+
+    const weeksData = weeks.map((week, wi)=>({
+      rows: DEFAULT_LABELS.map(label=>{
+        if(label === '사업부') return { label, cells: bizCells[wi].slice() };
+        if(label === '지점' && wi !== lastWeekIdx){
+          // Leave holidays (and Sat/Sun, which the template already keeps
+          // blank) empty instead of copying the weekly pattern onto them.
+          const cells = jijeomTemplate.map((val, di)=> getHolidayName(week[di].date) ? '' : val);
+          return { label, cells };
+        }
+        return { label, cells:['','','','','','',''] };
+      })
+    }));
+
+    return { note:'', note2:'', weeks: weeksData };
+  }
+
+  function formatCellHtml(label, val){
+    if(!val) return '';
+    let html = escapeHtmlText(val).replace(/\n/g,'<br>');
+    if(label === '휴가'){
+      STAFF_NAMES.forEach(name=>{
+        html = html.split(name).join(`<strong>${name}</strong>`);
+      });
+    }
+    html = html.split('신입').join('<span class="hl-newhire">신입</span>');
+    html = `<strong>${html}</strong>`;
+    return html;
+  }
+
+  function searchBoxHtml(){
+    const sp = state.searchParams;
+    return `
+      <div class="search-box no-print">
+        <div class="search-row">
+          <div class="search-group">
+            <span>기간</span>
+            <input type="date" id="searchStart" value="${sp.start||''}">
+            <span>~</span>
+            <input type="date" id="searchEnd" value="${sp.end||''}">
+          </div>
+          <div class="quick-jump">
+            <button type="button" class="btn btn-outline" id="thisWeekBtn">이번주</button>
+            <button type="button" class="btn btn-outline" id="nextWeekBtn">다음주</button>
+            <button type="button" class="btn btn-outline" id="thisMonthBtn">이번달</button>
+            <button type="button" class="btn btn-outline" id="nextMonthBtn">다음달</button>
+          </div>
+          <button class="btn btn-navy" id="searchBtn">검색</button>
+        </div>
+        <div class="search-cats" id="searchCats">
+          ${DEFAULT_LABELS.map(l=>{
+            const checked = sp.cats===null || sp.cats.includes(l);
+            const shade = CATEGORY_SHADE[l];
+            const activeBg = shade || '#EDEFF3';
+            const style = checked ? ` style="background:${activeBg};border-color:transparent;"` : '';
+            return `<label class="cat-chip${checked?' active':''}"${style}><input type="checkbox" value="${l}" ${checked?'checked':''}> ${l}</label>`;
+          }).join('')}
+        </div>
+        <div class="tool-row">
+          <button class="btn btn-tool" id="forceRefreshBtn">🔄 새로고침</button>
+          <button class="btn btn-tool btn-tool-gold" id="saveNowBtn">💾 저장</button>
+          <button class="btn btn-tool" id="printBtn">🖶 가로 출력</button>
+          <button class="btn btn-tool" id="exportMonthBtn">📥 이번 달 엑셀 다운로드</button>
+          <button class="btn btn-tool btn-tool-danger" id="deleteYearBtn">🗑 연도별 자료 삭제</button>
+          <button class="btn btn-tool" id="diagBtn">🔧 저장 진단</button>
+        </div>
+        <div class="search-results" id="searchResultsWrap" style="display:none;">
+          <div class="sr-count" id="srCount"></div>
+          <div id="srList"></div>
+        </div>
+      </div>
+    `;
+  }
+
+  function bindSearchBoxEvents(){
+    document.getElementById('searchBtn').onclick = runSearch;
+    document.getElementById('thisWeekBtn').onclick = ()=>showWeekRange(0);
+    document.getElementById('nextWeekBtn').onclick = ()=>showWeekRange(1);
+    document.getElementById('thisMonthBtn').onclick = ()=>showMonthRange(0);
+    document.getElementById('nextMonthBtn').onclick = ()=>showMonthRange(1);
+    document.getElementById('forceRefreshBtn').onclick = async ()=>{
+      if(state.filterActive && state.filterWeeksData){
+        const { start, end } = state.filterWeeksData;
+        const cats = state.searchParams.cats || DEFAULT_LABELS;
+        const fresh = await buildWeeklyFilterData(start, end, cats);
+        state.filterWeeksData = fresh;
+        state.filterMonthCache = fresh.monthCache;
+        render();
+      } else {
+        if(state.saveTimer) await flushPendingSave();
+        await loadCurrentMonth();
+      }
+      showToast('최신 내용으로 새로고침했습니다.');
+    };
+    document.getElementById('saveNowBtn').onclick = async ()=>{
+      if(state.filterActive && state.filterMonthCache){
+        let allOk = true;
+        for(const key of Object.keys(state.filterMonthCache)){
+          clearTimeout(state.filterSaveTimers[key]);
+          delete state.filterSaveTimers[key];
+          const [yy,mm] = key.split('-').map(Number);
+          const dirty = { cells: state.filterDirty[key] || new Set(), note:false, note2:false, renamedRows:new Set(), addedRows:new Set(), removedRows:new Set(), reorderedWeeks:new Set() };
+          const ok = await saveMonthMerged(yy, mm, state.filterMonthCache[key], dirty);
+          delete state.filterDirty[key];
+          if(!ok) allOk = false;
+        }
+        showToast(allOk ? '저장되었습니다.' : '저장 중 오류가 발생했습니다.');
+      } else {
+        await flushPendingSave();
+      }
+    };
+    document.getElementById('printBtn').onclick = ()=>{
+      let title;
+      if(state.filterActive && state.filterWeeksData){
+        const { start, end } = state.filterWeeksData;
+        title = `${start.getFullYear()}.${start.getMonth()+1}.${start.getDate()} ~ ${end.getFullYear()}.${end.getMonth()+1}.${end.getDate()} 일정표`;
+      } else {
+        title = `${state.year}년 ${state.month}월 일정표`;
+      }
+      printViaNewWindow(title);
+    };
+    document.getElementById('deleteYearBtn').onclick = deleteYearData;
+    document.getElementById('exportMonthBtn').onclick = ()=>exportMonthToExcel(state.year, state.month);
+    document.getElementById('diagBtn').onclick = runDiagnostics;
+    document.querySelectorAll('#searchCats input[type=checkbox]').forEach(cb=>{
+      cb.addEventListener('change', ()=>{
+        const checked = Array.from(document.querySelectorAll('#searchCats input:checked')).map(c=>c.value);
+        state.visibleCats = checked.length < DEFAULT_LABELS.length ? checked : null;
+        state.searchParams.cats = state.visibleCats;
+        render();
+      });
+    });
+  }
+
+  async function showMonthRange(offsetMonths){
+    if(state.saveTimer) await flushPendingSave(); // don't read a stale snapshot ahead of a still-pending edit
+    const today = new Date();
+    const first = new Date(today.getFullYear(), today.getMonth()+offsetMonths, 1);
+    const last = new Date(first.getFullYear(), first.getMonth()+1, 0);
+    const startStr = `${first.getFullYear()}-${pad(first.getMonth()+1)}-${pad(first.getDate())}`;
+    const endStr = `${last.getFullYear()}-${pad(last.getMonth()+1)}-${pad(last.getDate())}`;
+
+    state.searchParams = { start:startStr, end:endStr, cats:null };
+    state.visibleCats = null;
+    const _fwd1 = await buildWeeklyFilterData(first, last, DEFAULT_LABELS); state.filterWeeksData = _fwd1; state.filterMonthCache = _fwd1.monthCache;
+    state.filterActive = true;
+    render();
+  }
+
+  // ---------- Excel export ----------
+  // Uses xlsx-js-style (a SheetJS build with cell-style write support) so
+  // the exported file can carry the same background shading and bold text
+  // seen on screen — plain SheetJS community edition can't write styles.
+
+  function hexNoHash(c){ return (c||'').replace('#','').toUpperCase(); }
+
+  // Builds one styled cell: {v, t, s}. bg is a "#RRGGBB" string or null.
+  function xlsxCell(value, {bold=false, bg=null, wrap=false, align='center', size=null}={}){
+    const font = {};
+    if(bold) font.bold = true;
+    if(size) font.sz = size;
+    const style = {
+      alignment: { horizontal: align, vertical: 'center', wrapText: !!wrap },
+      font,
+    };
+    if(bg) style.fill = { patternType:'solid', fgColor:{ rgb: hexNoHash(bg) } };
+    return { v: (value==null?'':value), t: 's', s: style };
+  }
+
+  // Mirrors exactly what's on screen: one section per week block, a date
+  // header row (월~일 + holiday name) with the same weekend/holiday
+  // shading, then one row per 구분(category) in the same order/labels
+  // currently shown (including any rows the user renamed, reordered, or
+  // added) with the same category/weekend/holiday cell shading, separated
+  // by a blank row between weeks.
+  function buildMonthSheetAOA(y, m, monthData){
+    const weeks = buildWeeks(y, m);
+    const dowNames = ['월','화','수','목','금','토','일'];
+
+    const aoa = [];
+    aoa.push([xlsxCell(`${y}년 ${m}월 업무일정표`, {bold:true, size:14, align:'left'})]);
+    if(monthData.note && monthData.note.trim()){
+      aoa.push([xlsxCell('이 달의 공지', {bold:true, bg:'#F3E6C8'}), xlsxCell(monthData.note, {wrap:true, align:'left'})]);
+    }
+    if(monthData.note2 && monthData.note2.trim()){
+      aoa.push([xlsxCell('타지점일정', {bold:true, bg:'#F3E6C8'}), xlsxCell(monthData.note2, {wrap:true, align:'left'})]);
+    }
+    aoa.push([]);
+
+    weeks.forEach((week, wi)=>{
+      const headerRow = [xlsxCell('구분', {bold:true, bg:'#223354'})];
+      week.forEach((day, di)=>{
+        const hol = getHolidayName(day.date);
+        let bg = '#F7F9FB';
+        if(hol) bg = HOLIDAY_COLOR;
+        else if(di===5) bg = '#D7F3F0';
+        else if(di===6) bg = '#FBE2E8';
+        headerRow.push(xlsxCell(`${dowNames[di]} ${day.date.getMonth()+1}/${day.date.getDate()}${hol ? ' *'+hol : ''}`, {bold:true, bg}));
+      });
+      aoa.push(headerRow);
+
+      const weekData = (monthData.weeks && monthData.weeks[wi]) || {};
+      const rows = (Array.isArray(weekData.rows) && weekData.rows.length)
+        ? weekData.rows
+        : DEFAULT_LABELS.map(label=>({label, cells:['','','','','','','']}));
+
+      rows.forEach(row=>{
+        const shadeColor = CATEGORY_SHADE[row.label];
+        const line = [xlsxCell(row.label, {bold:true, bg:'#FAFBFC'})];
+        for(let di=0; di<7; di++){
+          const val = (row.cells && row.cells[di]) || '';
+          const hol = getHolidayName(week[di].date);
+          let bg = null;
+          if(hol) bg = HOLIDAY_COLOR;
+          else if(di===5) bg = '#D7F3F0';
+          else if(di===6) bg = '#FBE2E8';
+          else if(shadeColor && val.trim()) bg = shadeColor;
+          line.push(xlsxCell(val, {bg, wrap:true}));
+        }
+        aoa.push(line);
+      });
+
+      aoa.push([]); // blank row between week blocks, matching the on-screen gap
+    });
+
+    return aoa;
+  }
+
+  function hasXlsxLib(){
+    if(typeof XLSX === 'undefined'){
+      showToast('엑셀 라이브러리를 불러오지 못했습니다. 인터넷 연결을 확인해주세요.');
+      return false;
+    }
+    return true;
+  }
+
+  // Plain browser download (Blob + temporary <a download>), same pattern
+  // already used by the CSV/print exports — works directly, no special
+  // capability needed.
+  // Resolves the "downloads" runtime capability once (memoized). Only
+  // meaningful when this file is running as a published Claude artifact —
+  // window.claude doesn't exist at all on GitHub Pages/plain hosting, so
+  // this simply resolves null there and callers fall back to a direct
+  // browser download.
+  let _downloadsCapPromise = null;
+  function useDownloadsCapability(){
+    if(!_downloadsCapPromise){
+      _downloadsCapPromise = (typeof window !== 'undefined' && window.claude && typeof window.claude.use === 'function')
+        ? window.claude.use('downloads')
+        : Promise.resolve(null);
+    }
+    return _downloadsCapPromise;
+  }
+
+  // Offers a file to the viewer. On a published artifact, a plain
+  // Blob+<a download> click is inert, so this tries the "downloads"
+  // capability first; anywhere else (GitHub Pages, a locally-opened file)
+  // window.claude doesn't exist and it transparently falls back to the
+  // direct browser download.
+  async function offerFileDownload(filename, blob, successMsg){
+    const downloadsNs = await useDownloadsCapability();
+    if(downloadsNs){
+      try{
+        await downloadsNs.save({filename, data: blob});
+        showToast(successMsg);
+        return true;
+      }catch(e){
+        if(e && e.code === 'declined'){ showToast('다운로드가 취소되었습니다.'); return false; }
+        console.error('downloads capability save failed, falling back to direct download', e);
+      }
+    }
+    try{
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url), 5000);
+      showToast(successMsg);
+      return true;
+    }catch(e){
+      console.error('direct download failed', e);
+      showToast('다운로드 중 오류가 발생했습니다.');
+      return false;
+    }
+  }
+
+  async function saveWorkbook(wb, filename){
+    try{
+      const wbout = XLSX.write(wb, {bookType:'xlsx', type:'array'});
+      const blob = new Blob([wbout], {type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+      return await offerFileDownload(filename, blob, '엑셀 파일을 다운로드했습니다.');
+    }catch(e){
+      console.error('excel save failed', e);
+      showToast('엑셀 다운로드 중 오류가 발생했습니다.');
+      return false;
+    }
+  }
+
+  function applySheetColWidths(ws){
+    ws['!cols'] = [{wch:12}, {wch:22}, {wch:22}, {wch:22}, {wch:22}, {wch:22}, {wch:22}, {wch:22}];
+  }
+
+  // Rough row heights so wrapped multi-line cell content isn't squashed:
+  // taller for category rows, shorter for headers/notes.
+  function applySheetRowHeights(ws, aoa){
+    ws['!rows'] = aoa.map(row=>{
+      let maxLines = 1;
+      row.forEach(cell=>{
+        const text = cell && cell.v != null ? String(cell.v) : '';
+        const lines = text.split('\n').length;
+        if(lines > maxLines) maxLines = lines;
+      });
+      return { hpx: Math.min(120, Math.max(18, maxLines*15)) };
+    });
+  }
+
+  async function exportMonthToExcel(y, m){
+    if(!hasXlsxLib()) return false;
+    const monthData = await loadMonth(y, m) || {note:'', note2:'', weeks:[]};
+    const aoa = buildMonthSheetAOA(y, m, monthData);
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.aoa_to_sheet(aoa);
+    applySheetColWidths(ws);
+    applySheetRowHeights(ws, aoa);
+    XLSX.utils.book_append_sheet(wb, ws, `${m}월`);
+    return await saveWorkbook(wb, `일정표_${y}년${pad(m)}월.xlsx`);
+  }
+
+  async function exportYearToExcel(year){
+    if(!hasXlsxLib()) return false;
+    const wb = XLSX.utils.book_new();
+    for(let mm=1; mm<=12; mm++){
+      const monthData = await loadMonth(year, mm) || {note:'', note2:'', weeks:[]};
+      const aoa = buildMonthSheetAOA(year, mm, monthData);
+      const ws = XLSX.utils.aoa_to_sheet(aoa);
+      applySheetColWidths(ws);
+      applySheetRowHeights(ws, aoa);
+      XLSX.utils.book_append_sheet(wb, ws, `${mm}월`);
+    }
+    return await saveWorkbook(wb, `일정표_백업_${year}년.xlsx`);
+  }
+
+  // On-demand diagnostics for "I typed something, it said saved, but it's
+  // gone" reports. Bypasses all local caching and app logic to show
+  // exactly what's on the server for the CURRENT month right now — the
+  // db capability's connection status, the raw document, and whether a
+  // round-trip write/read actually confirms.
+  function escapeHtmlForDiag(str){
+    return (str||'').replace(/[&<>]/g, s=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[s]));
+  }
+  function showDiagModal(html){
+    const old = document.getElementById('diagOverlay');
+    if(old) old.remove();
+    const overlay = document.createElement('div');
+    overlay.className = 'diag-overlay';
+    overlay.id = 'diagOverlay';
+    overlay.innerHTML = `<div class="diag-box">${html}<button class="diag-close" id="diagCloseBtn">닫기</button></div>`;
+    document.body.appendChild(overlay);
+    overlay.addEventListener('click', (e)=>{ if(e.target===overlay) overlay.remove(); });
+    document.getElementById('diagCloseBtn').onclick = ()=> overlay.remove();
+  }
+  async function runDiagnostics(){
+    showDiagModal(`<h3>🔧 저장 진단</h3><div class="diag-row">확인 중입니다...</div>`);
+    const key = monthKey(state.year, state.month);
+    const lines = [];
+    lines.push(`<div class="diag-row"><b>확인 대상:</b> ${state.year}년 ${state.month}월 (${escapeHtmlForDiag(key)})</div>`);
+    lines.push(`<div class="diag-row"><b>저장소 종류:</b> ${hasCloudStorage ? '✅ 공유 저장소 (모든 사람과 실시간 공유됨)' : '⚠️ 이 브라우저에만 저장됨 — 정상입니다. 다른 사람과 공유할 내용은 파트장님께 전달하면 다음 게시 때 자동으로 반영됩니다.'}</div>`);
+
+    // 1) Read the CURRENT stored content for this month, as-is.
+    let rawJson = '(읽기 실패)';
+    try{
+      const raw = await Store.get(key);
+      if(raw){
+        rawJson = JSON.stringify(JSON.parse(raw), null, 1);
+        lines.push(`<div class="diag-row"><b>저장된 내용 존재 여부:</b> ✅ 있음</div>`);
+      } else {
+        rawJson = '(아직 저장된 적이 없습니다)';
+        lines.push(`<div class="diag-row"><b>저장된 내용 존재 여부:</b> ❌ 없음</div>`);
+      }
+    }catch(e){
+      lines.push(`<div class="diag-row"><b>읽기:</b> ❌ 오류 — ${escapeHtmlForDiag(e && e.message)}</div>`);
+    }
+    lines.push(`<div class="diag-row"><b>실제로 저장된 원본 내용:</b></div><pre>${escapeHtmlForDiag(rawJson)}</pre>`);
+
+    // 2) Round-trip test: write a small marker value, read it back immediately.
+    let roundTripOk = false;
+    let roundTripDetail = '';
+    try{
+      const testKey = 'diagnostics:roundtrip-test';
+      const marker = 'ping-' + Date.now();
+      await Store.set(testKey, JSON.stringify({ marker, checkedBy: '월간업무일정표', at: new Date().toISOString() }));
+      const check = await Store.get(testKey);
+      const gotMarker = check ? JSON.parse(check).marker : null;
+      roundTripOk = gotMarker === marker;
+      roundTripDetail = `보낸 값: ${marker} / 읽은 값: ${gotMarker}`;
+    }catch(e){
+      roundTripDetail = '오류: ' + (e && e.message);
+    }
+    lines.push(`<div class="diag-row"><b>쓰기→읽기 즉시 확인 테스트:</b> ${roundTripOk ? '✅ 정상 (쓴 내용이 바로 읽힘)' : '❌ 불일치 — '+escapeHtmlForDiag(roundTripDetail)}</div>`);
+
+    lines.push(`<div class="diag-row" style="color:var(--ink-muted);">이 화면을 캡처해서 전달해주시면 원인 파악에 도움이 됩니다.</div>`);
+    showDiagModal(lines.join(''));
+  }
+
+  // ---------- Cross-device sharing via seed-merge on republish (same
+  // approach as 스탭업무보고 / 관중): GitHub Pages has no shared backend,
+  // so each person's edits live only in their own browser. To bring
+  // everyone up to date, Olivia periodically tells Claude what's changed,
+  // Claude bakes it into SEED_DATA below with a bumped SEED_VERSION, and
+  // republishes. The next time anyone opens the page, applySeedMergeIfNeeded()
+  // fills in any BLANK cells with the new seed content — it never
+  // overwrites a cell someone already typed something into, so local edits
+  // are always safe. ----------
+
+  // Deletes an entire year's saved schedule data (Jan~Dec), after asking
+  // which year, offering an Excel backup download first, and confirming.
+  // Months with no saved data are skipped silently. After deletion, months
+  // that have SEED_DATA (2026-07/08) will fall back to showing the seed
+  // content again on next load, since only the saved override is removed,
+  // not the built-in seed.
+  async function deleteYearData(){
+    const input = window.prompt('삭제할 연도를 입력하세요 (예: 2026)', String(state.year));
+    if(input === null) return; // cancelled
+    const year = parseInt(String(input).trim(), 10);
+    if(!year || year < 2000 || year > 2100){
+      showToast('올바른 연도를 입력해주세요. (예: 2026)');
+      return;
+    }
+
+    const wantsBackup = window.confirm(`삭제하기 전에 ${year}년 전체 일정을 엑셀 파일로 먼저 다운로드하시겠습니까?\n(확인: 엑셀 다운로드 후 계속 / 취소: 백업 없이 계속)`);
+    if(wantsBackup){
+      const success = await exportYearToExcel(year);
+      if(!success){
+        const proceedAnyway = window.confirm('엑셀 백업에 실패했습니다. 백업 없이 삭제를 계속하시겠습니까?');
+        if(!proceedAnyway) return;
+      }
+    }
+
+    const ok = window.confirm(`${year}년 1월~12월 전체 일정 데이터를 삭제하시겠습니까?\n이 작업은 되돌릴 수 없습니다.`);
+    if(!ok) return;
+
+    let deletedCount = 0;
+    for(let mm=1; mm<=12; mm++){
+      const ok2 = await deleteMonth(year, mm);
+      if(ok2) deletedCount++;
+    }
+    showToast(`${year}년 일정 데이터를 삭제했습니다. (${deletedCount}개월분)`);
+
+    if(state.filterActive){
+      await exitFilterView();
+    } else {
+      await loadCurrentMonth();
+    }
+  }
+
+  // Seed content transcribed from the office's real August 2026 sheet.
+  // Used only the first time a month is opened with no saved data yet.
+  const SEED_DATA = {
+    '2026-07': {
+      note: "[7월 생일자]\n- 7.5 장빈 / 7.10 양승훈 / 7.11 진대환\n- 7.31 박봉순\n\n[취합일정]\n- 7.3 세금신고\n- 7.7 승급자 및 후보자 현황 공문\n- 7.9 수수료 지급율 공문\n- 7.20 예외처리",
+      note2: "",
+      weeks: [
+        { rows: [
+          {label:'교육', cells:['','','신입 2차월 교육(10시~15시)','','','정연','']},
+          {label:'사업부', cells:['','','','','DB손보 커피차 / 세금신고','','']},
+          {label:'지점', cells:['주간 면담\n운영 리더미팅 (17시)','','센터 미팅\n영업계획서 제출\n영업계획 면담','증권 발행 신청(1차)','주간계획 제출\n핵심리더 회의','','']},
+          {label:'대표님', cells:['','','대 - 익산출장','대 - 목포출장','','','']},
+          {label:'익산직할', cells:['','','','','','','']},
+          {label:'목포직할', cells:['','','','','','','']},
+          {label:'휴가', cells:['','','','','','','']},
+        ]},
+        { rows: [
+          {label:'교육', cells:['','신입 2차월 교육(10시~15시)','신입 2차월 교육(10시~15시)','신입 2차월 교육(10시~15시)\n보케어 설명회 (9시~10시)','','정연','']},
+          {label:'사업부', cells:['카드수납일','영업관리자 순회교육(15시30분~17시)\n삼성화재 8층-김보람,국현아,코치3명','','수수료 지급율 보고','카드수납일','','']},
+          {label:'지점', cells:['주간면담\n본부 운영 미팅','주간 면담일지 체출','센터 미팅\n12차월 미만 코칭(10시)\n집중콜타임(13시)\n자동차 DB코칭(16시)','증권 발행 신청(2차)','주간계획 제출\n핵심리더 회의','','']},
+          {label:'대표님', cells:['','','주간 면담일지 체크','','','','']},
+          {label:'익산직할', cells:['','','','','','','']},
+          {label:'목포직할', cells:['','','','','','','']},
+          {label:'휴가', cells:['','','','','이지은','','']},
+        ]},
+        { rows: [
+          {label:'교육', cells:['','신입 2차월 교육(10시~15시)','신입 2차월 교육(10시~15시)','','제헌절','오토휴무','']},
+          {label:'사업부', cells:['','','MVP 시상식 / 카드수납일','','','','']},
+          {label:'지점', cells:['주간면담\n운영 리더미팅 (17시)','주간 면담일지 체출','팀별 미팅\n12차월 미만 코칭(10시)\n집중콜타임(13시)\n자동차 DB코칭(16시)','증권 발행 신청(3차)','','','']},
+          {label:'대표님', cells:['','','주간 면담일지 체크','','','','']},
+          {label:'익산직할', cells:['','','','','','','']},
+          {label:'목포직할', cells:['','','','','','','']},
+          {label:'휴가', cells:['','','','','','','']},
+        ]},
+        { rows: [
+          {label:'교육', cells:['','신입 2차월 교육(10시~15시)','','11기 수료식','','정연','']},
+          {label:'사업부', cells:['추가시책지급 / 카드수납일','','','','수수료 지급일','','']},
+          {label:'지점', cells:['주간면담\n택배리스트 제출\n본부 운영 미팅','주간 면담일지 체출','센터 미팅\n12차월 미만 코칭(10시)\n집중콜타임(13시)\n자동차 DB코칭(16시)','','주간계획 제출\n택배 데이\n핵심리더 회의','','']},
+          {label:'대표님', cells:['','','주간 면담일지 체크','','','','']},
+          {label:'익산직할', cells:['','','','','','','']},
+          {label:'목포직할', cells:['','','','','','','']},
+          {label:'휴가', cells:['','','','','진영주','','']},
+        ]},
+        { rows: [
+          {label:'교육', cells:['','','','','','','']},
+          {label:'사업부', cells:['카드수납일','','','','시책지급','','']},
+          {label:'지점', cells:['주간 면담\n운영 리더미팅 (17시)\n마감활동 확인','주간 면담일지 체출','팀별 미팅\n12차월 미만 코칭(10시)\n집중콜타임(13시)\n자동차 DB코칭(16시)','','센터 미팅\n핵심리더 회의','','']},
+          {label:'대표님', cells:['','','주간 면담일지 체크','','','','']},
+          {label:'익산직할', cells:['','','','','','','']},
+          {label:'목포직할', cells:['','','','','','','']},
+          {label:'휴가', cells:['','','','','','','']},
+        ]},
+      ]
+    },
+    '2026-08': {
+      note: "[8월 생일자]\n- 8.10 송지혜 / 8.15 김현진 / 8.18 이주희 / 8.26 김해윤(목) / 8.29 김별(목)\n\n[휴가 미지정]\n유경완, 이지연, 김은영, 이진철\n\n[특이사항]\n- 이지인(자녀방학) : 7.23-8.17\n- 김가령(자녀방학) : 7.24-8.17\n- (자녀방학기간에 출근이 원활하지 않을 수 있음)\n- 목포직할: 김수영 7/4~7, 김별 9/28~29\n- 익산직할: 박기혜 7/17~20, 김현경 7/13~17\n\n[취합일정]\n- 8.5 세금신고\n- 8.7 승급자 및 후보자 현황 공문\n- 8.10 수수료 지급율 공문\n- 8.20 예외처리",
+      note2: "[유지사업부]\n8.3~4 리더 워크샵(1박2일) - 이웅걸, 노원명, 박문환, 박상현, 권혜진, 김진선",
+      weeks: [
+        { rows: [
+          {label:'교육', cells:['','','','','','정연','']},
+          {label:'사업부', cells:['카드수납일','','','','시책지급','','']},
+          {label:'지점', cells:['주간 면담\n운영 리더미팅 (17시)\n마감활동 확인','주간 면담일지 체출','팀별 미팅\n12차월 미만 코칭(10시)\n집중콜타임(13시)\n자동차 DB코칭(16시)','','센터 미팅\n핵심리더 회의','','']},
+          {label:'대표님', cells:['','','주간 면담일지 체크','','','','']},
+          {label:'익산직할', cells:['','','','','','','']},
+          {label:'목포직할', cells:['','','','','','','']},
+          {label:'휴가', cells:['김윤정 한유진\n이진희 이지인\n김현지','김윤정 한유진\n이지인 김현지','김윤정 한유진\n송지혜 김보민\n이지인 김현지','송지혜 김보민\n김현지 김보미\n김미주 김미선','송지혜 박봉순\n이지인 이주희\n김보미 김미주\n김미선','','']},
+        ]},
+        { rows: [
+          {label:'교육', cells:['','','자동차보험 외부교육\n(13시~16시)','','육아맘 데이','정연','']},
+          {label:'사업부', cells:['','','카드수납일 / 세금신고','','수수료 지급율 보고','','']},
+          {label:'지점', cells:['주간면담\n본부 운영 미팅','주간 면담일지 체출','센터 미팅\n12차월 미만 코칭(10시)\n집중콜타임(13시)\n자동차 DB코칭(16시)','증권 발행 신청(1차)','주간계획 제출\n핵심리더 회의','','']},
+          {label:'대표님', cells:['','목포출장','주간 면담일지 체크','','익산출장','','']},
+          {label:'익산직할', cells:['','','09:30 장현호코치\n13:00~16:00 전주 자동차보험교육','','09:30~ 대표 정보회의\n박태희 실장','','']},
+          {label:'목포직할', cells:['','','','','','','']},
+          {label:'휴가', cells:['고명희 국현아\n최재일 장하현','국현아 최재일\n장하현','국현아 최재일\n김수지 장하현\n이동엽','이진희 김수지\n이동엽','송경옥 김수지\n김민숙 이동엽\n이정례 김해윤','','']},
+        ]},
+        { rows: [
+          {label:'교육', cells:['','신입 3차월 교육(10시~15시)','','신입 3차월 교육(10시~15시)','','정연','']},
+          {label:'사업부', cells:['카드수납일','','MVP 시상식','','','','']},
+          {label:'지점', cells:['주간면담\n운영 리더미팅 (17시)','주간 면담일지 체출','팀별 미팅\n12차월 미만 코칭(10시)\n집중콜타임(13시)\n자동차 DB코칭(16시)','증권 발행 신청(2차)','증권 발행 신청(3차)','','']},
+          {label:'대표님', cells:['부산출장','','주간 면담일지 체크','','익산출장','','']},
+          {label:'익산직할', cells:['','11기 3차월 교육','09:30~ 부지점장 정보회의\n박태희 실장','11기 3차월 교육','09:30~ 대표 정보회의','','']},
+          {label:'목포직할', cells:['','','','','','','']},
+          {label:'휴가', cells:['송경옥 전은미\n이지인 배세열\n이주희','송경옥 전은미\n배세열 이주희','김은실 김보람\n배세열 전은미\n김현진 양승훈\n전가희 허란','김은실 김보람\n장현호 양승훈\n김현진 전가희\n유해선 허란','유해선 김보람\n김은실 양승훈\n장현호 김현진\n이지은 전가희\n박봉순 허란','','']},
+        ]},
+        { rows: [
+          {label:'교육', cells:['','신입 3차월 교육(10시~15시)','','','','정연','']},
+          {label:'사업부', cells:['카드수납일','','','카드수납일 / 추가시책지급','','','']},
+          {label:'지점', cells:['주간면담\n택배리스트 제출\n본부 운영 미팅','주간 면담일지 체출','센터 미팅\n12차월 미만 코칭(10시)\n집중콜타임(13시)\n자동차 DB코칭(16시)','증권 발행 신청(2차)','주간계획 제출\n택배 데이\n핵심리더 회의','','']},
+          {label:'대표님', cells:['','','주간 면담일지 체크','총괄사업부 리더미팅','','','']},
+          {label:'익산직할', cells:['11기 3차월 교육','','09:30~ 대표 정보회의','','09:30~ 부지점장 정보회의\n박태희 실장','','']},
+          {label:'목포직할', cells:['','','','','','','']},
+          {label:'휴가', cells:['','박봉순 오해미','오해미','장빈 오해미','이진희 장빈\n오해미','','']},
+        ]},
+        { rows: [
+          {label:'교육', cells:['','','','','','태희','']},
+          {label:'사업부', cells:['','카드수납일 / 수수료 지급','','','시책지급','','']},
+          {label:'지점', cells:['주간 면담\n운영 리더미팅 (17시)\n마감활동 확인','주간 면담일지 체출','팀별 미팅\n12차월 미만 코칭(10시)\n집중콜타임(13시)\n자동차 DB코칭(16시)','','센터 미팅\n핵심리더 회의','','']},
+          {label:'대표님', cells:['','','주간 면담일지 체크','목포출장','','','']},
+          {label:'익산직할', cells:['','','09:30~ 대표 정보회의','','09:30~ 부지점장 정보회의\n박태희 실장','','']},
+          {label:'목포직할', cells:['','','','','','','']},
+          {label:'휴가', cells:['이진희 장빈','','','이진희 고명희','고명희 모정연','','']},
+        ]},
+        { rows: [
+          {label:'교육', cells:['','','','','','','']},
+          {label:'사업부', cells:['시책지급','','','','','','']},
+          {label:'지점', cells:['주간 면담\n운영 리더미팅 (17시)\n마감활동 확인','','','','','','']},
+          {label:'대표님', cells:['','','','','','','']},
+          {label:'익산직할', cells:['','','','','','','']},
+          {label:'목포직할', cells:['','','','','','','']},
+          {label:'휴가', cells:['','','','','','','']},
+        ]},
+      ]
+    },
+  };
+
+  function seedFor(y,m){
+    const seed = SEED_DATA[`${y}-${pad(m)}`];
+    return seed ? JSON.parse(JSON.stringify(seed)) : null;
+  }
+
+  // Bump this whenever SEED_DATA above is updated with newly-collected
+  // content, so applySeedMergeIfNeeded() knows to run again. Same idea as
+  // 스탭업무보고's SEED_VERSION.
+  const SEED_VERSION = '2026-09-23-1';
+  const SEED_VERSION_KEY = 'meta:seedVersion';
+
+  // Runs once per page load. If SEED_DATA has been updated since this
+  // browser last saw it, fills in any still-BLANK cell in each seeded
+  // month with the new seed value — never touches a cell that already has
+  // something in it, so nobody's own typing is ever overwritten by a
+  // republish.
+  async function applySeedMergeIfNeeded(){
+    try{
+      const storedVersion = await Store.get(SEED_VERSION_KEY);
+      if(storedVersion === SEED_VERSION) return;
+
+      for(const ym of Object.keys(SEED_DATA)){
+        const [y, m] = ym.split('-').map(Number);
+        const seed = seedFor(y, m);
+        if(!seed) continue;
+        migrateLabels(seed);
+
+        const key = monthKey(y, m);
+        const raw = await Store.get(key);
+        const existing = raw ? JSON.parse(raw) : null;
+
+        if(!existing || isBlankMonthData(existing)){
+          await Store.set(key, JSON.stringify(seed));
+          continue;
+        }
+
+        migrateLabels(existing);
+        const merged = JSON.parse(JSON.stringify(existing));
+        while(merged.weeks.length < seed.weeks.length) merged.weeks.push(defaultWeekData());
+
+        seed.weeks.forEach((seedWeek, wi)=>{
+          if(!merged.weeks[wi]) return;
+          (seedWeek.rows||[]).forEach(seedRow=>{
+            let mergedRow = merged.weeks[wi].rows.find(r=>r.label===seedRow.label);
+            if(!mergedRow){
+              mergedRow = { id: seedRow.id, label: seedRow.label, cells:['','','','','','','']};
+              merged.weeks[wi].rows.push(mergedRow);
+            }
+            (seedRow.cells||[]).forEach((val, di)=>{
+              if(val && val.trim() && (!mergedRow.cells[di] || !mergedRow.cells[di].trim())){
+                mergedRow.cells[di] = val;
+              }
+            });
+          });
+        });
+
+        await Store.set(key, JSON.stringify(merged));
+      }
+
+      await Store.set(SEED_VERSION_KEY, SEED_VERSION);
+    }catch(e){
+      console.error('seed merge failed', e);
+    }
+  }
+
+  let state = {
+    year: new Date().getFullYear(),
+    month: new Date().getMonth()+1,
+    data: { note:'', weeks: [] },
+    saveTimer: null,
+    isSaving: false,
+    isEditing: false,
+    filterActive: false,
+    filterWeeksData: null,
+    filterMonthCache: null,
+    filterSaveTimers: {},
+    searchParams: { start:'', end:'', cats:null }, // cats:null = all checked
+    visibleCats: null, // null = show all rows; array = only show these labels
+    // Tracks exactly which fields THIS tab has edited for the currently
+    // open month, so a save can merge just those fields into the latest
+    // server copy instead of overwriting the whole document — see
+    // saveMonthMerged(). Reset whenever a different month is loaded.
+    dirty: { cells: new Set(), note: false, note2: false, renamedRows: new Set(), addedRows: new Set(), removedRows: new Set(), reorderedWeeks: new Set() },
+    // Same idea for the period-filter view, keyed by "y-m" since that
+    // view can have several months open in filterMonthCache at once.
+    // (Filter view only ever edits cell text, never row structure.)
+    filterDirty: {},
+  };
+
+  function resetDirty(){
+    state.dirty = { cells: new Set(), note: false, note2: false, renamedRows: new Set(), addedRows: new Set(), removedRows: new Set(), reorderedWeeks: new Set() };
+  }
+
+  // Short unique id given to every 구분 row so edits, renames, additions,
+  // deletions, and reordering can all be matched back to "the same row"
+  // when merging a save against another editor's concurrent changes —
+  // matching by array position or by label text alone breaks the moment
+  // either editor reorders, renames, or adds a row.
+  function genRowId(){
+    return 'r' + Date.now().toString(36) + Math.random().toString(36).slice(2,8);
+  }
+
+  // For rows saved before this id system existed (or freshly re-fetched
+  // straight from the store, bypassing migrateLabels): derive a STABLE id
+  // from the row's label so two different tabs loading the same
+  // still-id-less document independently arrive at the same id for "the
+  // row labeled 사업부", instead of each minting an unmatched random one.
+  // Once a document is saved with real ids, this never runs again for it.
+  function backfillRowIds(rows){
+    const seen = {};
+    (rows||[]).forEach(row=>{
+      if(row.id) return;
+      const base = row.label || 'row';
+      seen[base] = (seen[base]||0) + 1;
+      row.id = seen[base] > 1 ? `${base}#${seen[base]}` : base;
+    });
+  }
+
+  const app = document.getElementById('app');
+  const toastEl = document.getElementById('toast');
+
+  function showToast(msg){
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    setTimeout(()=>toastEl.classList.remove('show'), 1800);
+  }
+
+  function printViaNewWindow(titleText){
+    const target = document.getElementById('printSheet');
+    if(!target){ showToast('출력할 내용을 찾을 수 없습니다.'); return; }
+    const styleTag = document.querySelector('style');
+    const styles = styleTag ? styleTag.outerHTML : '';
+    const title = titleText || '';
+
+    const fitScript = `
+      window.onload = function(){
+        var wrap = document.getElementById('printWrap');
+        var outer = document.getElementById('printOuter');
+        var naturalW = wrap.offsetWidth;
+        var naturalH = wrap.offsetHeight;
+        // A4 landscape usable area at 96dpi, minus @page margins (5mm each side)
+        var mmToPx = 96/25.4;
+        var budgetW = (297 - 10) * mmToPx;
+        var budgetH = (210 - 10) * mmToPx;
+        var scaleX = budgetW/naturalW;
+        var scaleY = budgetH/naturalH;
+        wrap.style.transformOrigin = 'top left';
+        wrap.style.transform = 'scaleX(' + scaleX + ') scaleY(' + scaleY + ')';
+        outer.style.width = budgetW + 'px';
+        outer.style.height = budgetH + 'px';
+        setTimeout(function(){ window.print(); }, 250);
+      };
+    `;
+
+    const html =
+      '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>일정표 인쇄</title>' +
+      styles +
+      '<style>@page{size:landscape;margin:5mm;} body{margin:0;padding:0;} ' +
+      '#printOuter{overflow:hidden;} #printWrap{display:inline-block;} ' +
+      '.print-title{font-size:20px;font-weight:800;color:#16233F;margin-bottom:8px;font-family:-apple-system,"Malgun Gothic","Apple SD Gothic Neo",sans-serif;}</style>' +
+      '</head><body>' +
+      '<div id="printOuter"><div id="printWrap">' +
+      (title ? '<div class="print-title">' + title + '</div>' : '') +
+      target.outerHTML +
+      '</div></div>' +
+      '<script>' + fitScript + '<\/script>' +
+      '</body></html>';
+
+    try{
+      const blob = new Blob([html], {type:'text/html'});
+      const now = new Date();
+      const fname = `일정표_출력_${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}.html`;
+      offerFileDownload(fname, blob, '다운로드된 파일을 열면 자동으로 인쇄 창이 뜹니다.');
+    }catch(e){
+      console.error('print download failed', e);
+      showToast('출력용 파일을 만들지 못했습니다.');
+    }
+  }
+
+  function pad(n){ return n<10 ? '0'+n : ''+n; }
+  function monthKey(y,m){ return `schedule:${y}-${pad(m)}`; }
+
+  // ---------- Shared storage ----------
+  // window.storage(key, shared:true) is what actually gives cross-account,
+  // no-login-required real-time sharing on a published Claude artifact —
+  // confirmed working for this exact tool in July, and still how 관중
+  // (출근현황) and 스탭업무보고 both work today. (An earlier attempt to
+  // move this to the "db" capability required everyone to be signed into
+  // the same Claude organization, which broke sharing for individual
+  // accounts — reverted.)
+  const hasCloudStorage = (typeof window !== 'undefined' && typeof window.storage !== 'undefined' && window.storage && typeof window.storage.get === 'function');
+  const Store = {
+    async get(key){
+      if(hasCloudStorage){
+        try{ const r = await window.storage.get(key, true); return r ? r.value : null; }
+        catch(e){ return null; }
+      }
+      try{ return localStorage.getItem('wr_'+key); }catch(e){ return null; }
+    },
+    async set(key, value){
+      if(hasCloudStorage){
+        try{ const r = await window.storage.set(key, value, true); return !!r; }
+        catch(e){ console.error('저장 실패', e); return false; }
+      }
+      try{ localStorage.setItem('wr_'+key, value); return true; }
+      catch(e){ console.error('저장 실패', e); return false; }
+    },
+    async delete(key){
+      if(hasCloudStorage){
+        try{ const r = await window.storage.delete(key, true); return !!r; }
+        catch(e){ return false; }
+      }
+      try{ localStorage.removeItem('wr_'+key); return true; }catch(e){ return false; }
+    },
+    async list(prefix){
+      if(hasCloudStorage){
+        try{ const r = await window.storage.list(prefix, true); return (r && Array.isArray(r.keys)) ? r.keys : []; }
+        catch(e){ return []; }
+      }
+      try{
+        const keys = [];
+        for(let i=0;i<localStorage.length;i++){
+          const k = localStorage.key(i);
+          if(k && k.indexOf('wr_'+prefix)===0) keys.push(k.slice(3));
+        }
+        return keys;
+      }catch(e){ return []; }
+    }
+  };
+
+  function isBlankMonthData(data){
+    if(!data || !Array.isArray(data.weeks)) return true;
+    const noteEmpty = !data.note || !data.note.trim();
+    const note2Empty = !data.note2 || !data.note2.trim();
+    const allCellsEmpty = data.weeks.every(week=>
+      (week.rows||[]).every(row=> (row.cells||[]).every(c=>!c || !c.trim()))
+    );
+    return noteEmpty && note2Empty && allCellsEmpty;
+  }
+
+  // One-time-per-load migration: heals any month data saved under the old
+  // category scheme (유지/케이/부산) so renamed/removed categories always
+  // show correctly, even for months that were already saved before the rename.
+  function migrateLabels(data){
+    if(!data || !Array.isArray(data.weeks)) return data;
+    if(typeof data.note2 !== 'string') data.note2 = '';
+    data.weeks.forEach(week=>{
+      if(!Array.isArray(week.rows)) return;
+      week.rows.forEach(row=>{
+        if(row.label==='유지') row.label='익산직할';
+        else if(row.label==='케이') row.label='목포직할';
+      });
+      week.rows = week.rows.filter(r=>r.label!=='부산');
+      const hyuga = week.rows.filter(r=>r.label==='휴가');
+      const rest = week.rows.filter(r=>r.label!=='휴가');
+      week.rows = rest.concat(hyuga);
+      backfillRowIds(week.rows);
+    });
+    return data;
+  }
+
+  async function loadMonth(y,m){
+    try{
+      const raw = await Store.get(monthKey(y,m));
+      if(raw){
+        const data = JSON.parse(raw);
+        if(data && Array.isArray(data.weeks)){
+          if(isBlankMonthData(data)){
+            const seed = seedFor(y,m);
+            if(seed) return migrateLabels(seed);
+            return migrateLabels(await buildAutoFilledMonth(y,m));
+          }
+          return migrateLabels(data);
+        }
+      }
+    }catch(e){ console.error('load failed', e); }
+    const seed = seedFor(y,m);
+    if(seed) return migrateLabels(seed);
+    return migrateLabels(await buildAutoFilledMonth(y,m));
+  }
+
+  async function saveMonth(y,m,data){
+    try{
+      return await setDocVerified(monthKey(y,m), data);
+    }catch(e){
+      console.error('save failed', e);
+      return false;
+    }
+  }
+
+  // Writes a document, then does a light existence check as a sanity net
+  // for a truly silent failure — not a full content comparison. (An
+  // earlier, stricter content-comparison verification produced false
+  // "저장 중 오류" reports for genuinely successful saves, since what a
+  // fresh read returns isn't always byte-identical to what was sent even
+  // when the save is correct — so we don't compare content here.)
+  async function setDocVerified(key, data){
+    const payload = JSON.stringify(data);
+    for(let attempt=0; attempt<2; attempt++){
+      const ok = await Store.set(key, payload);
+      if(!ok){ console.error('save write failed, attempt', attempt+1); continue; }
+      try{
+        const check = await Store.get(key);
+        if(check != null) return true;
+        console.error('save verification: value missing right after a write that did not fail, attempt', attempt+1);
+      }catch(e){
+        console.error('save verification read failed (the write itself did not fail, so treating as saved)', e);
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // Reconciles one week's row list: starts from the SERVER's current rows
+  // (so another editor's concurrent add/edit/delete to this same week
+  // survives), then layers this tab's own row-level changes on top,
+  // matched by row id rather than array position or label text — the only
+  // way renames, additions, deletions, and reordering can all be merged
+  // safely instead of one editor's structural edit blowing away another's.
+  function mergeWeekRows(serverRows, localRows, dirtyForWeek){
+    const localById = new Map();
+    (localRows||[]).forEach(r=>{ if(r.id) localById.set(r.id, r); });
+
+    let merged = (serverRows||[])
+      .filter(r=> !(r.id && dirtyForWeek.removed.has(r.id)))
+      .map(r=> ({ id:r.id, label:r.label, cells:(r.cells||['','','','','','','']).slice() }));
+
+    merged.forEach(r=>{
+      if(!r.id) return;
+      if(dirtyForWeek.renamed.has(r.id)){
+        const lr = localById.get(r.id);
+        if(lr) r.label = lr.label;
+      }
+      const dirtyC = dirtyForWeek.cellsByRowId.get(r.id);
+      if(dirtyC){
+        const lr = localById.get(r.id);
+        if(lr){
+          dirtyC.forEach(c=>{ r.cells[c] = (lr.cells && lr.cells[c]) || ''; });
+        }
+      }
+    });
+
+    dirtyForWeek.added.forEach(id=>{
+      if(merged.some(r=>r.id===id)) return;
+      const lr = localById.get(id);
+      if(lr) merged.push({ id:lr.id, label:lr.label, cells:(lr.cells||['','','','','','','']).slice() });
+    });
+
+    if(dirtyForWeek.reordered){
+      const localOrder = (localRows||[]).map(r=>r.id).filter(Boolean);
+      const orderIndex = new Map(localOrder.map((id,i)=>[id,i]));
+      merged.sort((a,b)=>{
+        const ai = orderIndex.has(a.id) ? orderIndex.get(a.id) : Infinity;
+        const bi = orderIndex.has(b.id) ? orderIndex.get(b.id) : Infinity;
+        return ai - bi;
+      });
+    }
+
+    return merged;
+  }
+
+  // Saves only what this tab actually changed (tracked in `dirty`), merged
+  // onto the LATEST server copy — not the possibly-stale local `localData`
+  // — so a concurrent editor's changes elsewhere in the same month survive
+  // instead of being silently overwritten by a plain full-document
+  // `.set()`. Covers cell edits, notes, row renames, additions, deletions,
+  // and reordering, each merged at row-id granularity. Falls back to a
+  // plain overwrite only when nothing is tracked as dirty, or there's no
+  // server copy yet to merge onto.
+  async function saveMonthMerged(y, m, localData, dirty){
+    try{
+      const key = monthKey(y,m);
+
+      const hasAnyDirty = dirty && (
+        dirty.note || dirty.note2 ||
+        (dirty.cells && dirty.cells.size) ||
+        (dirty.renamedRows && dirty.renamedRows.size) ||
+        (dirty.addedRows && dirty.addedRows.size) ||
+        (dirty.removedRows && dirty.removedRows.size) ||
+        (dirty.reorderedWeeks && dirty.reorderedWeeks.size)
+      );
+      if(!hasAnyDirty){
+        return await setDocVerified(key, localData);
+      }
+
+      const raw = await Store.get(key);
+      const serverData = raw ? JSON.parse(raw) : null;
+      if(!serverData || !Array.isArray(serverData.weeks)){
+        return await setDocVerified(key, localData);
+      }
+      migrateLabels(serverData); // backfill ids on rows saved before this system existed
+
+      const merged = JSON.parse(JSON.stringify(serverData));
+      while(merged.weeks.length < localData.weeks.length) merged.weeks.push(defaultWeekData());
+      if(merged.weeks.length > localData.weeks.length) merged.weeks = merged.weeks.slice(0, localData.weeks.length);
+
+      if(dirty.note) merged.note = localData.note;
+      if(dirty.note2) merged.note2 = localData.note2;
+
+      const weekIndicesTouched = new Set();
+      const cellsByWeek = new Map();
+      (dirty.cells||new Set()).forEach(keyStr=>{
+        let w, rowId, c;
+        try{ [w, rowId, c] = JSON.parse(keyStr); }catch(e){ return; }
+        weekIndicesTouched.add(w);
+        if(!cellsByWeek.has(w)) cellsByWeek.set(w, new Map());
+        const cm = cellsByWeek.get(w);
+        if(!cm.has(rowId)) cm.set(rowId, new Set());
+        cm.get(rowId).add(c);
+      });
+      const renamedByWeek = new Map();
+      (dirty.renamedRows||new Set()).forEach(keyStr=>{
+        let w, rowId;
+        try{ [w, rowId] = JSON.parse(keyStr); }catch(e){ return; }
+        weekIndicesTouched.add(w);
+        if(!renamedByWeek.has(w)) renamedByWeek.set(w, new Set());
+        renamedByWeek.get(w).add(rowId);
+      });
+      const addedByWeek = new Map();
+      (dirty.addedRows||new Set()).forEach(keyStr=>{
+        let w, rowId;
+        try{ [w, rowId] = JSON.parse(keyStr); }catch(e){ return; }
+        weekIndicesTouched.add(w);
+        if(!addedByWeek.has(w)) addedByWeek.set(w, new Set());
+        addedByWeek.get(w).add(rowId);
+      });
+      const removedByWeek = new Map();
+      (dirty.removedRows||new Set()).forEach(keyStr=>{
+        let w, rowId;
+        try{ [w, rowId] = JSON.parse(keyStr); }catch(e){ return; }
+        weekIndicesTouched.add(w);
+        if(!removedByWeek.has(w)) removedByWeek.set(w, new Set());
+        removedByWeek.get(w).add(rowId);
+      });
+      const reorderedWeeksSet = new Set(Array.from(dirty.reorderedWeeks||[]).map(Number));
+      reorderedWeeksSet.forEach(w=> weekIndicesTouched.add(w));
+
+      weekIndicesTouched.forEach(w=>{
+        const serverWeek = merged.weeks[w];
+        const localWeek = localData.weeks[w];
+        if(!serverWeek || !localWeek) return;
+        backfillRowIds(localWeek.rows); // ensure local rows have ids too (new/legacy rows), no other side effects
+        const dirtyForWeek = {
+          cellsByRowId: cellsByWeek.get(w) || new Map(),
+          renamed: renamedByWeek.get(w) || new Set(),
+          added: addedByWeek.get(w) || new Set(),
+          removed: removedByWeek.get(w) || new Set(),
+          reordered: reorderedWeeksSet.has(w),
+        };
+        serverWeek.rows = mergeWeekRows(serverWeek.rows, localWeek.rows, dirtyForWeek);
+      });
+
+      return await setDocVerified(key, merged);
+    }catch(e){
+      console.error('save failed', e);
+      return false;
+    }
+  }
+
+  async function deleteMonth(y,m){
+    try{
+      return await Store.delete(monthKey(y,m));
+    }catch(e){
+      console.error('delete failed', e);
+      return false;
+    }
+  }
+
+  function scheduleSave(){
+    clearTimeout(state.saveTimer);
+    state.saveTimer = setTimeout(async ()=>{
+      state.saveTimer = null;
+      await flushPendingSave();
+    }, 700);
+  }
+
+  // Actually performs the save for whatever month/data is CURRENTLY loaded
+  // in the main (non-filter) view, using the values passed in — never read
+  // from `state` lazily, since state.year/state.month/state.data can be
+  // reassigned (by navigating to another month) before a delayed timer
+  // fires. Called both by the debounce timer and by anything that's about
+  // to replace state.data (month navigation, manual refresh) so an
+  // in-flight edit is never lost or written under the wrong month.
+  async function flushPendingSave(){
+    if(state.saveTimer){ clearTimeout(state.saveTimer); state.saveTimer = null; }
+    const y = state.year, m = state.month, data = state.data, dirty = state.dirty;
+    state.isSaving = true;
+    const ok = await saveMonthMerged(y, m, data, dirty);
+    state.isSaving = false;
+    showToast(ok ? '저장되었습니다.' : '저장 중 오류가 발생했습니다.');
+    return ok;
+  }
+
+  function scheduleFilterSave(y, m){
+    const key = `${y}-${m}`;
+    clearTimeout(state.filterSaveTimers[key]);
+    state.filterSaveTimers[key] = setTimeout(async ()=>{
+      const data = state.filterMonthCache && state.filterMonthCache[key];
+      if(!data) return;
+      const dirty = { cells: state.filterDirty[key] || new Set(), note:false, note2:false, renamedRows:new Set(), addedRows:new Set(), removedRows:new Set(), reorderedWeeks:new Set() };
+      const ok = await saveMonthMerged(y, m, data, dirty);
+      delete state.filterSaveTimers[key];
+      showToast(ok ? '저장되었습니다.' : '저장 중 오류가 발생했습니다.');
+    }, 700);
+  }
+
+  // Build Monday-start week grid for the given year/month.
+  // Returns array of weeks; each week is array of {date: Date, inMonth: bool}
+  function buildWeeks(y,m){
+    const first = new Date(y, m-1, 1);
+    const last = new Date(y, m, 0);
+    const firstMonIdx = (first.getDay()+6)%7; // Mon=0..Sun=6
+    const lastMonIdx = (last.getDay()+6)%7;
+    const start = new Date(first); start.setDate(first.getDate()-firstMonIdx);
+    const end = new Date(last); end.setDate(last.getDate()+(6-lastMonIdx));
+
+    const weeks = [];
+    let cursor = new Date(start);
+    while(cursor <= end){
+      const week = [];
+      for(let i=0;i<7;i++){
+        week.push({date:new Date(cursor), inMonth: cursor.getMonth()+1===m});
+        cursor.setDate(cursor.getDate()+1);
+      }
+      weeks.push(week);
+    }
+    return weeks;
+  }
+
+  function isToday(d){
+    const t = new Date();
+    return t.getFullYear()===d.getFullYear() && t.getMonth()===d.getMonth() && t.getDate()===d.getDate();
+  }
+
+  function defaultWeekData(){
+    return { rows: DEFAULT_LABELS.map(label=>({id: genRowId(), label, cells:['','','','','','',''] })) };
+  }
+
+  function ensureDataShape(weekCount){
+    if(!state.data || !Array.isArray(state.data.weeks)) state.data = {note:'', note2:'', weeks:[]};
+    while(state.data.weeks.length < weekCount){
+      state.data.weeks.push(defaultWeekData());
+    }
+    if(state.data.weeks.length > weekCount){
+      state.data.weeks = state.data.weeks.slice(0, weekCount);
+    }
+    if(typeof state.data.note !== 'string') state.data.note = '';
+  }
+
+  function autoGrow(el){
+    el.style.height = 'auto';
+    el.style.height = (el.scrollHeight) + 'px';
+  }
+
+  function escapeAttr(str){
+    return (str||'').replace(/"/g,'&quot;');
+  }
+
+  async function changeMonth(delta){
+    if(state.saveTimer) await flushPendingSave();
+    let m = state.month + delta, y = state.year;
+    if(m<1){ m=12; y--; } if(m>12){ m=1; y++; }
+    state.year=y; state.month=m;
+    await loadCurrentMonth();
+  }
+
+  async function showWeekRange(offsetWeeks){
+    if(state.saveTimer) await flushPendingSave(); // don't read a stale snapshot ahead of a still-pending edit
+    const today = new Date();
+    const monIdx = (today.getDay()+6)%7; // Mon=0..Sun=6
+    const monday = new Date(today);
+    monday.setDate(today.getDate() - monIdx + offsetWeeks*7);
+    const sunday = new Date(monday);
+    sunday.setDate(monday.getDate()+6);
+    const startStr = `${monday.getFullYear()}-${pad(monday.getMonth()+1)}-${pad(monday.getDate())}`;
+    const endStr = `${sunday.getFullYear()}-${pad(sunday.getMonth()+1)}-${pad(sunday.getDate())}`;
+
+    state.searchParams = { start:startStr, end:endStr, cats:null };
+    const _fwd2 = await buildWeeklyFilterData(monday, sunday, DEFAULT_LABELS); state.filterWeeksData = _fwd2; state.filterMonthCache = _fwd2.monthCache;
+    state.filterActive = true;
+    render();
+  }
+
+  async function loadCurrentMonth(){
+    app.innerHTML = `<div class="loading-msg">일정을 불러오는 중입니다...</div>`;
+    const loaded = await loadMonth(state.year, state.month);
+    state.data = loaded || {note:'', note2:'', weeks:[]};
+    resetDirty();
+    render();
+  }
+
+  async function refreshOnView(){
+    // Re-fetch whenever the tab/window becomes visible/focused again,
+    // so returning to the screen always shows the latest saved content.
+    if(state.filterActive) return; // don't disturb a read-only period view
+    const active = document.activeElement;
+    if(active && (active.tagName==='TEXTAREA' || active.tagName==='INPUT')) return;
+    if(state.saveTimer || state.isSaving) return;
+    await loadCurrentMonth();
+  }
+  document.addEventListener('visibilitychange', ()=>{
+    if(document.visibilityState==='visible') refreshOnView();
+  });
+  window.addEventListener('focus', refreshOnView);
+
+  function toDateOnly(str){
+    // 'YYYY-MM-DD' from <input type=date> -> Date at local midnight
+    if(!str) return null;
+    const [yy,mm,dd] = str.split('-').map(Number);
+    return new Date(yy, mm-1, dd);
+  }
+
+  async function exitFilterView(){
+    if(state.filterMonthCache){
+      for(const key of Object.keys(state.filterMonthCache)){
+        clearTimeout(state.filterSaveTimers[key]);
+        delete state.filterSaveTimers[key];
+        const [yy,mm] = key.split('-').map(Number);
+        const dirty = { cells: state.filterDirty[key] || new Set(), note:false, note2:false, renamedRows:new Set(), addedRows:new Set(), removedRows:new Set(), reorderedWeeks:new Set() };
+        await saveMonthMerged(yy, mm, state.filterMonthCache[key], dirty);
+        delete state.filterDirty[key];
+      }
+    }
+    state.filterActive = false;
+    state.filterWeeksData = null;
+    state.filterMonthCache = null;
+    await loadCurrentMonth();
+  }
+
+  async function buildWeeklyFilterData(start, end, checkedCats){
+    state.filterDirty = {}; // fresh cache load — old dirty tracking no longer applies
+    const startMonIdx = (start.getDay()+6)%7;
+    const endMonIdx = (end.getDay()+6)%7;
+    const rangeStart = new Date(start); rangeStart.setDate(start.getDate()-startMonIdx);
+    const rangeEnd = new Date(end); rangeEnd.setDate(end.getDate()+(6-endMonIdx));
+
+    const weeks = [];
+    let cursor = new Date(rangeStart);
+    while(cursor <= rangeEnd){
+      const week = [];
+      for(let i=0;i<7;i++){ week.push(new Date(cursor)); cursor.setDate(cursor.getDate()+1); }
+      weeks.push(week);
+    }
+
+    const monthCache = {};
+    const weeksCacheByMonth = {};
+    async function ensureMonth(y,m){
+      const key = `${y}-${m}`;
+      if(!(key in monthCache)){
+        monthCache[key] = await loadMonth(y,m) || {note:'', note2:'', weeks:[]};
+        weeksCacheByMonth[key] = buildWeeks(y,m);
+        const wcount = weeksCacheByMonth[key].length;
+        while(monthCache[key].weeks.length < wcount){
+          monthCache[key].weeks.push(defaultWeekData());
+        }
+      }
+      return key;
+    }
+    function locate(dt){
+      const y=dt.getFullYear(), m=dt.getMonth()+1;
+      const key = `${y}-${m}`;
+      const weeksArr = weeksCacheByMonth[key];
+      for(let w=0; w<weeksArr.length; w++){
+        for(let d=0; d<7; d++){
+          const cand = weeksArr[w][d].date;
+          if(cand.getFullYear()===dt.getFullYear() && cand.getMonth()===dt.getMonth() && cand.getDate()===dt.getDate()){
+            return {y,m,key,wi:w,di:d};
+          }
+        }
+      }
+      return null;
+    }
+
+    for(const week of weeks){
+      for(const dt of week){
+        await ensureMonth(dt.getFullYear(), dt.getMonth()+1);
+      }
+    }
+
+    const result = [];
+    for(const week of weeks){
+      const rows = [];
+      for(const label of checkedCats){
+        const cells = [];
+        for(const dt of week){
+          const inRange = dt>=start && dt<=end;
+          if(!inRange){ cells.push({inRange:false}); continue; }
+          const loc = locate(dt);
+          let val = '';
+          if(loc){
+            const monthData = monthCache[loc.key];
+            const weekRows = monthData.weeks[loc.wi].rows;
+            let row = weekRows.find(r=>r.label===label);
+            if(!row){
+              row = {label, cells:['','','','','','','']};
+              weekRows.push(row);
+            }
+            val = row.cells[loc.di] || '';
+            cells.push({inRange:true, val, y:loc.y, m:loc.m, wi:loc.wi, di:loc.di});
+          } else {
+            cells.push({inRange:true, val:''});
+          }
+        }
+        rows.push({label, cells});
+      }
+      result.push({dates:week, rows});
+    }
+    return { start, end, weeks: result, monthCache };
+  }
+
+  async function runSearch(){
+    if(state.saveTimer) await flushPendingSave(); // don't read a stale snapshot ahead of a still-pending edit
+    const startVal = document.getElementById('searchStart').value;
+    const endVal = document.getElementById('searchEnd').value;
+    const start = toDateOnly(startVal);
+    const end = toDateOnly(endVal);
+    const checkedCats = Array.from(document.querySelectorAll('#searchCats input:checked')).map(cb=>cb.value);
+
+    state.searchParams = {
+      start: startVal, end: endVal,
+      cats: checkedCats.length < DEFAULT_LABELS.length ? checkedCats : null,
+    };
+
+    if(start && end){
+      const wrap = document.getElementById('searchResultsWrap');
+      if(wrap){ wrap.style.display='block'; document.getElementById('srCount').textContent='조회 중입니다...'; document.getElementById('srList').innerHTML=''; }
+      const cats = checkedCats.length ? checkedCats : DEFAULT_LABELS;
+      const _fwd3 = await buildWeeklyFilterData(start, end, cats); state.filterWeeksData = _fwd3; state.filterMonthCache = _fwd3.monthCache;
+      state.filterActive = true;
+      render();
+      return;
+    }
+
+    // No date range given: fall back to a cross-month text list search.
+    const wrap = document.getElementById('searchResultsWrap');
+    const countEl = document.getElementById('srCount');
+    const listEl = document.getElementById('srList');
+    wrap.style.display = 'block';
+    countEl.textContent = '검색 중입니다...';
+    listEl.innerHTML = '';
+
+    let monthKeys = [];
+    try{
+      const keys = await Store.list('schedule:');
+      monthKeys = keys.map(k=>k.replace('schedule:','')); // each becomes "YYYY-MM"
+    }catch(e){
+      countEl.textContent = '검색 중 오류가 발생했습니다.';
+      return;
+    }
+
+    const results = [];
+    for(const key of monthKeys){
+      const parts = key.split('-').map(Number);
+      const yy = parts[0], mm = parts[1];
+      if(!yy || !mm) continue;
+      const monthData = await loadMonth(yy, mm);
+      if(!monthData || !Array.isArray(monthData.weeks)) continue;
+      const weeks = buildWeeks(yy, mm);
+      weeks.forEach((week, wi)=>{
+        const rows = (monthData.weeks[wi] && monthData.weeks[wi].rows) || [];
+        rows.forEach(row=>{
+          if(checkedCats.length && !checkedCats.includes(row.label)) return;
+          row.cells.forEach((val, ci)=>{
+            if(!val || !val.trim()) return;
+            const d = week[ci].date;
+            if(start && d < start) return;
+            if(end && d > end) return;
+            results.push({date:d, year:yy, month:mm, label:row.label, text:val});
+          });
+        });
+      });
+    }
+    results.sort((a,b)=>a.date-b.date);
+
+    countEl.textContent = `검색결과: ${results.length}건`;
+    if(results.length===0){
+      listEl.innerHTML = `<div class="sr-empty">조건에 맞는 일정이 없습니다.</div>`;
+      return;
+    }
+    listEl.innerHTML = results.map((r,i)=>{
+      const dstr = `${r.date.getMonth()+1}/${r.date.getDate()}(${['일','월','화','수','목','금','토'][r.date.getDay()]})`;
+      return `<div class="sr-item" data-idx="${i}">
+        <div class="sr-date">${dstr}</div>
+        <div class="sr-label">${escapeHtmlText(r.label)}</div>
+        <div class="sr-text">${escapeHtmlText(r.text)}</div>
+      </div>`;
+    }).join('');
+    listEl.querySelectorAll('.sr-item').forEach(el=>{
+      el.addEventListener('click', async ()=>{
+        const r = results[el.dataset.idx];
+        if(state.saveTimer) await flushPendingSave();
+        state.year = r.year; state.month = r.month;
+        await loadCurrentMonth();
+        window.scrollTo({top: document.querySelector('.sheet')?.offsetTop || 0, behavior:'smooth'});
+      });
+    });
+  }
+
+  function renderWeeklyFilterView(){
+    const { start, end, weeks } = state.filterWeeksData;
+    const fmt = (d)=>`${d.getFullYear()}.${d.getMonth()+1}.${d.getDate()}`;
+
+    let weekBlocksHtml = '';
+    weeks.forEach((week, fwi)=>{
+      const dateRowHtml = week.dates.map((d, di)=>{
+        const cls = ['date-cell'];
+        const inRange = d>=start && d<=end;
+        if(!inRange) cls.push('muted');
+        if(isToday(d)) cls.push('today');
+        const hol = getHolidayName(d);
+        const style = hol ? ` style="background:${HOLIDAY_COLOR};"` : '';
+        const tag = hol ? `<span class="holiday-tag">${escapeHtmlText(hol)}</span>` : '';
+        return `<div class="${cls.join(' ')}"${style}><span class="num">${d.getDate()}</span>${tag}</div>`;
+      }).join('');
+
+      const rowsHtml = week.rows.map((row, fri)=>{
+        if(state.visibleCats && !state.visibleCats.includes(row.label)) return '';
+        const shadeColor = CATEGORY_SHADE[row.label];
+        const cellsHtml = row.cells.map((cellObj, ci)=>{
+          const dow = week.dates[ci].getDay(); // 0=Sun..6=Sat
+          const hol = cellObj.inRange ? getHolidayName(week.dates[ci]) : null;
+          let bg = '';
+          if(!cellObj.inRange){
+            bg = '';
+          } else if(hol){
+            bg = HOLIDAY_COLOR;
+          } else if(dow===6){
+            bg = '#D7F3F0';
+          } else if(dow===0){
+            bg = '#FBE2E8';
+          } else if(shadeColor && cellObj.val && cellObj.val.trim()){
+            bg = shadeColor;
+          }
+          const style = bg ? ` style="background:${bg};"` : '';
+
+          if(!cellObj.inRange){
+            return `<div class="cell-text"${style}></div>`;
+          }
+          const val = cellObj.val || '';
+          const monthKeyStr = `${cellObj.y}-${cellObj.m}`;
+          const monthCacheData = state.filterMonthCache && state.filterMonthCache[monthKeyStr];
+          const srcWeek = monthCacheData && monthCacheData.weeks && monthCacheData.weeks[cellObj.wi];
+          const srcRow = srcWeek && Array.isArray(srcWeek.rows) && srcWeek.rows.find(rr=>rr.label===row.label);
+          const rowId = srcRow ? srcRow.id : '';
+          const coords = `data-y="${cellObj.y}" data-m="${cellObj.m}" data-wi="${cellObj.wi}" data-di="${cellObj.di}" data-ci="${ci}" data-fwi="${fwi}" data-fri="${fri}" data-label="${escapeAttr(row.label)}" data-rowid="${escapeAttr(rowId)}"`;
+          return `
+            <div class="cell-text"${style}>
+              <div class="cell-display" ${coords}>${formatCellHtml(row.label, val)}</div>
+              <textarea class="cell-edit-hidden" ${coords} rows="1">${escapeHtmlText(val)}</textarea>
+            </div>
+          `;
+        }).join('');
+        return `
+          <div class="row-line${row.label==='대표님' ? ' row-divider' : ''}">
+            <div class="label-cell"><input type="text" value="${escapeAttr(row.label)}" readonly style="pointer-events:none;background:transparent;"></div>
+            ${cellsHtml}
+          </div>
+        `;
+      }).join('');
+
+      weekBlocksHtml += `
+        <div class="week-block">
+          <div class="date-row">
+            <div class="label-cell"></div>
+            ${dateRowHtml}
+          </div>
+          ${rowsHtml}
+        </div>
+      `;
+    });
+
+    app.innerHTML = `
+      <div class="toolbar no-print">
+        <div class="month-nav">
+          <button id="exitFilterBtn" class="btn btn-exit-filter">← 전체 달력으로</button>
+          <div class="label" style="font-size:14px;">${fmt(start)} ~ ${fmt(end)}</div>
+        </div>
+      </div>
+
+      ${searchBoxHtml()}
+
+      <div class="sheet" id="printSheet">
+        <div class="dow-header">
+          <div class="gubun-head">구분</div>
+          <div>월</div><div>화</div><div>수</div><div>목</div><div>금</div>
+          <div class="dow-sat">토</div><div class="dow-sun">일</div>
+        </div>
+        ${weekBlocksHtml}
+      </div>
+
+      <div class="footnote no-print">칸을 클릭하면 바로 입력·수정할 수 있습니다. 이 브라우저에 자동으로 저장됩니다.</div>
+    `;
+
+    document.querySelectorAll('.cell-text textarea, .note-box textarea').forEach(autoGrow);
+
+    document.getElementById('exitFilterBtn').onclick = exitFilterView;
+    bindSearchBoxEvents();
+
+    document.querySelectorAll('.cell-display').forEach(disp=>{
+      disp.addEventListener('click', ()=>{
+        const cell = disp.closest('.cell-text');
+        const ta = cell.querySelector('.cell-edit-hidden');
+        if(!ta) return;
+        disp.style.display = 'none';
+        ta.style.display = 'block';
+        autoGrow(ta);
+        ta.focus();
+      });
+    });
+    document.querySelectorAll('.cell-edit-hidden').forEach(ta=>{
+      ta.addEventListener('input', (e)=>{
+        const {y,m,wi,di,label,fwi,fri,ci,rowid} = e.target.dataset;
+        const key = `${y}-${m}`;
+        const monthData = state.filterMonthCache[key];
+        const weekRows = monthData.weeks[wi].rows;
+        let row = weekRows.find(r=>r.label===label);
+        if(!row){ row = {id: rowid || genRowId(), label, cells:['','','','','','','']}; weekRows.push(row); }
+        if(!row.id) row.id = rowid || genRowId();
+        row.cells[di] = e.target.value;
+        // Track this exact cell as edited so the save merges it into the
+        // latest server copy instead of overwriting the whole month.
+        if(!state.filterDirty[key]) state.filterDirty[key] = new Set();
+        state.filterDirty[key].add(JSON.stringify([Number(wi), row.id, Number(di)]));
+        // keep the currently-displayed filter data structure in sync too
+        const fCell = state.filterWeeksData.weeks[fwi].rows[fri].cells[Number(ci)];
+        if(fCell) fCell.val = e.target.value;
+        autoGrow(e.target);
+        const cell = e.target.closest('.cell-text');
+        if(cell){
+          const shadeColor = CATEGORY_SHADE[label];
+          const val = e.target.value;
+          const cellDate = state.filterWeeksData.weeks[Number(fwi)].dates[Number(ci)];
+          const hol = getHolidayName(cellDate);
+          let bgColor = '';
+          if(hol) bgColor = HOLIDAY_COLOR;
+          else if(Number(ci)===5) bgColor = '#D7F3F0';
+          else if(Number(ci)===6) bgColor = '#FBE2E8';
+          else if(shadeColor && val && val.trim()) bgColor = shadeColor;
+          cell.style.background = bgColor;
+        }
+        scheduleFilterSave(Number(y), Number(m));
+      });
+      ta.addEventListener('blur', (e)=>{
+        const cell = e.target.closest('.cell-text');
+        const disp = cell.querySelector('.cell-display');
+        const {label, ci, fwi} = e.target.dataset;
+        const val = e.target.value;
+        disp.innerHTML = formatCellHtml(label, val);
+        const shadeColor = CATEGORY_SHADE[label];
+        const cellDate = state.filterWeeksData.weeks[Number(fwi)].dates[Number(ci)];
+        const hol = getHolidayName(cellDate);
+        let bgColor = '';
+        if(hol) bgColor = HOLIDAY_COLOR;
+        else if(Number(ci)===5) bgColor = '#D7F3F0';
+        else if(Number(ci)===6) bgColor = '#FBE2E8';
+        else if(shadeColor && val && val.trim()) bgColor = shadeColor;
+        cell.style.background = bgColor;
+        e.target.style.display = 'none';
+        disp.style.display = 'block';
+      });
+    });
+  }
+
+  function render(){
+    if(state.filterActive && state.filterWeeksData){
+      renderWeeklyFilterView();
+      return;
+    }
+    const y = state.year, m = state.month;
+    const weeks = buildWeeks(y,m);
+    ensureDataShape(weeks.length);
+
+    let weekBlocksHtml = '';
+    weeks.forEach((week, wi)=>{
+      const dateRowHtml = week.map((day, di)=>{
+        const dow = ['월','화','수','목','금','토','일'][di];
+        const cls = ['date-cell'];
+        if(!day.inMonth) cls.push('muted');
+        if(isToday(day.date)) cls.push('today');
+        const hol = getHolidayName(day.date);
+        const style = hol ? ` style="background:${HOLIDAY_COLOR};"` : '';
+        const tag = hol ? `<span class="holiday-tag">${escapeHtmlText(hol)}</span>` : '';
+        return `<div class="${cls.join(' ')}"${style}><span class="num">${day.date.getDate()}</span>${tag}</div>`;
+      }).join('');
+
+      const rows = state.data.weeks[wi].rows;
+      const rowsHtml = rows.map((row, ri)=>{
+        if(state.visibleCats && !state.visibleCats.includes(row.label)) return '';
+        const shadeColor = CATEGORY_SHADE[row.label];
+        const cellsHtml = row.cells.map((val, ci)=>{
+          const hol = getHolidayName(week[ci].date);
+          let bgColor = '';
+          if(hol) bgColor = HOLIDAY_COLOR; // 공휴일/대체공휴일 최우선
+          else if(ci===5) bgColor = '#D7F3F0'; // Saturday always wins
+          else if(ci===6) bgColor = '#FBE2E8'; // Sunday always wins
+          else if(shadeColor && val && val.trim()) bgColor = shadeColor;
+          const bg = bgColor ? ` style="background:${bgColor};"` : '';
+          return `
+            <div class="cell-text"${bg}>
+              <div class="cell-display" data-w="${wi}" data-r="${ri}" data-c="${ci}">${formatCellHtml(row.label, val)}</div>
+              <textarea class="cell-edit-hidden" data-w="${wi}" data-r="${ri}" data-c="${ci}" rows="1">${escapeHtmlText(val)}</textarea>
+            </div>
+          `;
+        }).join('');
+        return `
+          <div class="row-line${row.label==='대표님' ? ' row-divider' : ''}">
+            <div class="label-cell">
+              <input type="text" value="${escapeAttr(row.label)}" data-w="${wi}" data-r="${ri}" data-labelinput>
+              <div class="row-move">
+                <button class="row-move-btn" data-w="${wi}" data-r="${ri}" data-moveup ${ri===0?'disabled':''} title="위로 이동">▲</button>
+                <button class="row-move-btn" data-w="${wi}" data-r="${ri}" data-movedown ${ri===rows.length-1?'disabled':''} title="아래로 이동">▼</button>
+              </div>
+              <button class="rm-row" data-w="${wi}" data-r="${ri}" data-rmrow title="이 행 삭제">✕</button>
+            </div>
+            ${cellsHtml}
+          </div>
+        `;
+      }).join('');
+
+      weekBlocksHtml += `
+        <div class="week-block">
+          <div class="date-row">
+            <div class="label-cell"></div>
+            ${dateRowHtml}
+          </div>
+          ${rowsHtml}
+          <div class="week-actions">
+            <button class="add-row-btn" data-addrow="${wi}">+ 구분 행 추가</button>
+          </div>
+        </div>
+      `;
+    });
+
+    app.innerHTML = `
+      <div class="toolbar no-print">
+        <div class="month-nav">
+          <button id="prevMonth">‹</button>
+          <div class="label">${y}년 ${m}월</div>
+          <button id="nextMonth">›</button>
+        </div>
+      </div>
+
+      <div class="note-box no-print">
+        <div class="note-col">
+          <div class="note-label">이 달의 공지 (생일자, 특이사항 등)</div>
+          <textarea id="noteArea" rows="2" placeholder="예) 8.15 김현진 생일 / 자녀방학 기간 안내">${escapeHtmlText(state.data.note)}</textarea>
+        </div>
+        <div class="note-col">
+          <div class="note-label">타지점일정 - 유지사업부/케이금융/부산센터</div>
+          <textarea id="noteArea2" rows="2" placeholder="">${escapeHtmlText(state.data.note2)}</textarea>
+        </div>
+      </div>
+
+      ${searchBoxHtml()}
+
+      <div class="sheet" id="printSheet">
+        <div class="dow-header">
+          <div class="gubun-head">구분</div>
+          <div>월</div><div>화</div><div>수</div><div>목</div><div>금</div>
+          <div class="dow-sat">토</div><div class="dow-sun">일</div>
+        </div>
+        ${weekBlocksHtml}
+      </div>
+
+      <div class="footnote no-print">이 일정표는 입력한 내용이 이 브라우저에 자동 저장됩니다. 새로운 내용을 다 같이 보려면 파트장님께 알려주세요 — 반영해서 다시 게시해드리면 다음에 열 때 자동으로 합쳐집니다.</div>
+    `;
+
+    // autosize all textareas on render
+    document.querySelectorAll('.cell-text textarea, .note-box textarea').forEach(autoGrow);
+
+    document.getElementById('prevMonth').onclick = ()=>changeMonth(-1);
+    document.getElementById('nextMonth').onclick = ()=>changeMonth(1);
+    bindSearchBoxEvents();
+
+    document.getElementById('noteArea').addEventListener('input', (e)=>{
+      state.data.note = e.target.value;
+      state.dirty.note = true;
+      autoGrow(e.target);
+      scheduleSave();
+    });
+    document.getElementById('noteArea2').addEventListener('input', (e)=>{
+      state.data.note2 = e.target.value;
+      state.dirty.note2 = true;
+      autoGrow(e.target);
+      scheduleSave();
+    });
+
+    document.querySelectorAll('.cell-text textarea').forEach(ta=>{
+      ta.addEventListener('input', (e)=>{
+        const {w,r,c} = e.target.dataset;
+        state.data.weeks[w].rows[r].cells[c] = e.target.value;
+        const row = state.data.weeks[w].rows[r];
+        const label = row.label;
+        state.dirty.cells.add(JSON.stringify([Number(w), row.id, Number(c)]));
+        autoGrow(e.target);
+        const cell = e.target.closest('.cell-text');
+        if(cell){
+          const shadeColor = CATEGORY_SHADE[label];
+          const val = e.target.value;
+          const cellDate = buildWeeks(state.year, state.month)[Number(w)][Number(c)].date;
+          const hol = getHolidayName(cellDate);
+          let bgColor = '';
+          if(hol) bgColor = HOLIDAY_COLOR;
+          else if(Number(c)===5) bgColor = '#D7F3F0';
+          else if(Number(c)===6) bgColor = '#FBE2E8';
+          else if(shadeColor && val && val.trim()) bgColor = shadeColor;
+          cell.style.background = bgColor;
+        }
+        scheduleSave();
+      });
+    });
+
+    document.querySelectorAll('.cell-display').forEach(disp=>{
+      disp.addEventListener('click', ()=>{
+        const cell = disp.closest('.cell-text');
+        const ta = cell.querySelector('.cell-edit-hidden');
+        disp.style.display = 'none';
+        ta.style.display = 'block';
+        autoGrow(ta);
+        ta.focus();
+      });
+    });
+    document.querySelectorAll('.cell-edit-hidden').forEach(ta=>{
+      ta.addEventListener('blur', (e)=>{
+        const cell = e.target.closest('.cell-text');
+        const disp = cell.querySelector('.cell-display');
+        const {w,r,c} = e.target.dataset;
+        const label = state.data.weeks[w].rows[r].label;
+        const val = e.target.value;
+        disp.innerHTML = formatCellHtml(label, val);
+        const shadeColor = CATEGORY_SHADE[label];
+        const cellDate = buildWeeks(state.year, state.month)[Number(w)][Number(c)].date;
+        const hol = getHolidayName(cellDate);
+        let bgColor = '';
+        if(hol) bgColor = HOLIDAY_COLOR;
+        else if(Number(c)===5) bgColor = '#D7F3F0';
+        else if(Number(c)===6) bgColor = '#FBE2E8';
+        else if(shadeColor && val && val.trim()) bgColor = shadeColor;
+        cell.style.background = bgColor;
+        e.target.style.display = 'none';
+        disp.style.display = 'block';
+      });
+    });
+
+    document.querySelectorAll('[data-labelinput]').forEach(inp=>{
+      inp.addEventListener('input', (e)=>{
+        const {w,r} = e.target.dataset;
+        const row = state.data.weeks[w].rows[r];
+        row.label = e.target.value;
+        state.dirty.renamedRows.add(JSON.stringify([Number(w), row.id]));
+        scheduleSave();
+      });
+    });
+
+    document.querySelectorAll('[data-rmrow]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const w = btn.dataset.w, r = btn.dataset.r;
+        if(state.data.weeks[w].rows.length<=1){
+          showToast('최소 한 개의 구분 행은 남아있어야 합니다.');
+          return;
+        }
+        const removedId = state.data.weeks[w].rows[r].id;
+        state.data.weeks[w].rows.splice(r,1);
+        state.dirty.removedRows.add(JSON.stringify([Number(w), removedId]));
+        scheduleSave();
+        render();
+      });
+    });
+
+    document.querySelectorAll('[data-moveup]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const w = btn.dataset.w, r = Number(btn.dataset.r);
+        if(r<=0) return;
+        const arr = state.data.weeks[w].rows;
+        [arr[r-1], arr[r]] = [arr[r], arr[r-1]];
+        state.dirty.reorderedWeeks.add(Number(w));
+        scheduleSave();
+        render();
+      });
+    });
+    document.querySelectorAll('[data-movedown]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const w = btn.dataset.w, r = Number(btn.dataset.r);
+        const arr = state.data.weeks[w].rows;
+        if(r>=arr.length-1) return;
+        [arr[r], arr[r+1]] = [arr[r+1], arr[r]];
+        state.dirty.reorderedWeeks.add(Number(w));
+        scheduleSave();
+        render();
+      });
+    });
+
+    document.querySelectorAll('[data-addrow]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const w = btn.dataset.addrow;
+        const newRow = {id: genRowId(), label:'', cells:['','','','','','','']};
+        state.data.weeks[w].rows.push(newRow);
+        state.dirty.addedRows.add(JSON.stringify([Number(w), newRow.id]));
+        scheduleSave();
+        render();
+      });
+    });
+  }
+
+  function escapeHtmlText(str){
+    return (str||'').replace(/[&<>]/g, s=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[s]));
+  }
+
+  (async function init(){
+    await applySeedMergeIfNeeded();
+    const loaded = await loadMonth(state.year, state.month);
+    state.data = loaded || {note:'', note2:'', weeks:[]};
+    render();
+  })();
+
+})();
+</script>
+</body>
+</html>
